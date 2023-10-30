@@ -5,19 +5,15 @@ import {
   Route,
   Link
 } from 'react-router-dom'
-
-const Home = () => {
-  return <div>Home</div>
-}
-const Login = () => {
-  return <div>login</div>
-}
+import Home from './Home'
+import Login from './Login'
+import Button from '@mui/material/Button';
 
 const Nav = () => {
   return (
     <>
       <span> <Link to="/">Home</Link> </span>
-      <span> <Link to="/login">login</Link> </span>
+      <Button variant="contained"> <Link to="/login">login</Link> </Button>
     </>
   )
 }
