@@ -43,7 +43,7 @@ const Register = () => {
           <TextField onChange={onNameChange} id="register-name" label="name" variant="outlined" />
           <TextField onChange={onPasswordChange} id="register-password" label="password" variant="outlined" />
           <TextField onChange={onConfirmPasswordChange} id="register-confirm-password" label="confirm password" variant="outlined" />
-          <Button onClick={handleRegistrationSubmit} variant="contained">Submit</Button>
+          <Button onClick={handleRegistrationSubmit} variant="contained">Register</Button>
   </div>)
 }
 
