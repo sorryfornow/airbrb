@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const Login = () => {
+const Login = (props) => {
+  const { setIsLoggedIn } = props
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -24,6 +25,7 @@ const Login = () => {
       const data = await fetchResponse.json();
       console.log('login res: ', data)
       localStorage.setItem('jwtToken', data.token)
+      setIsLoggedIn(true)
     } catch (e) {
       alert(e)
     }

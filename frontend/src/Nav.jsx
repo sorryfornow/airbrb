@@ -5,13 +5,15 @@ import {
 import Logout from './Logout'
 import styles from './nav.module.css'
 
-const Nav = () => {
+const Nav = (props) => {
+  console.log('nav props: ', props)
+  const { isLoggedIn } = props
   return (
       <div className={styles.bigblue}>
         <Link to="/">Home</Link>
-        <Link to="/login">login</Link>
-        <Link to="/register">register</Link>
-        <Logout />
+        {!isLoggedIn && <Link to="/login">login</Link>}
+        {!isLoggedIn && <Link to="/register">register</Link>}
+        {isLoggedIn && <Logout />}
       </div>
   )
 }

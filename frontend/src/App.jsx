@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -10,20 +10,34 @@ import Register from './Register'
 import Nav from './Nav'
 
 function App () {
-  return (
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  if (!isLoggedIn) {
+    return (
     <>
       <BrowserRouter>
-        <Nav />
+        <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <hr />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </>
-
-  );
+    );
+  } else {
+    return (
+      <>
+        <BrowserRouter>
+          <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+          <hr />
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </BrowserRouter>
+      </>
+    );
+  }
 }
 
 export default App;
