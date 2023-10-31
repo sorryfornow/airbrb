@@ -2,14 +2,17 @@ import React from 'react'
 import {
   Link
 } from 'react-router-dom'
+import Logout from './Logout'
+import styles from './nav.module.css'
 
 const Nav = () => {
   return (
-      <>
-        <span> <Link to="/">Home</Link> </span>
-        <Link variant="contained"> <Link to="/login">login</Link> </Link>
-        <Link variant="contained"> <Link to="/register">register</Link> </Link>
-      </>
+      <div className={styles.bigblue}>
+        <Link to="/">Home</Link>
+        <Link to="/login">login</Link>
+        <Link to="/register">register</Link>
+        <Logout />
+      </div>
   )
 }
 

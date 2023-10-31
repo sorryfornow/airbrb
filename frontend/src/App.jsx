@@ -12,7 +12,6 @@ import Nav from './Nav'
 function App () {
   return (
     <>
-
       <BrowserRouter>
         <Nav />
         <hr />
