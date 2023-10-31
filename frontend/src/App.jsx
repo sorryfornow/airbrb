@@ -3,6 +3,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Navigate
 } from 'react-router-dom'
 import Home from './Home'
 import Login from './Login'
@@ -31,9 +32,7 @@ function App () {
         <BrowserRouter>
           <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <hr />
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>
+           <Navigate replace to="/" />
         </BrowserRouter>
       </>
     );
