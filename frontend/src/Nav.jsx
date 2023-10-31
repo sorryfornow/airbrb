@@ -7,13 +7,13 @@ import styles from './nav.module.css'
 
 const Nav = (props) => {
   console.log('nav props: ', props)
-  const { isLoggedIn } = props
+  const { isLoggedIn, setIsLoggedIn } = props
   return (
       <div className={styles.bigblue}>
         <Link to="/">Home</Link>
         {!isLoggedIn && <Link to="/login">login</Link>}
         {!isLoggedIn && <Link to="/register">register</Link>}
-        {isLoggedIn && <Logout />}
+        {isLoggedIn && <Logout setIsLoggedIn={setIsLoggedIn} />}
       </div>
   )
 }

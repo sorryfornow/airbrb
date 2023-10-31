@@ -21,7 +21,7 @@ function App () {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const Register = () => {
+const Register = (props) => {
+  const { setIsLoggedIn } = props
+
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
@@ -28,6 +30,7 @@ const Register = () => {
       const fetchResponse = await fetch('http://localhost:5005/user/auth/register', reqData);
       const data = await fetchResponse.json();
       localStorage.setItem('jwtToken', data.token)
+      setIsLoggedIn(true)
     } catch (e) {
       alert(e)
     }
