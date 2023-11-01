@@ -10,7 +10,8 @@ const Login = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLoginSubmit = async () => {
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
     const payload = {
       email,
       password,
@@ -27,9 +28,11 @@ const Login = (props) => {
       const fetchResponse = await fetch('http://localhost:5005/user/auth/login', reqData);
       const data = await fetchResponse.json();
       console.log('login res: ', data)
+      if (data) {
+        navigate('/', { replace: true });
+        setIsLoggedIn(true)
+      }
       localStorage.setItem('jwtToken', data.token)
-      setIsLoggedIn(true)
-      navigate('/', { replace: true });
     } catch (e) {
       alert(e)
     }

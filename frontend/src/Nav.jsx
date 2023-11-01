@@ -8,18 +8,26 @@ import Logout from './Logout'
 import styles from './nav.module.css'
 
 const Nav = (props) => {
-  console.log('nav props: ', props)
   const { isLoggedIn, setIsLoggedIn } = props
-  return (
+  if (!isLoggedIn) {
+    return (
       <div className={styles.bigblue}>
         <Link to="/">Home</Link>
-        {!isLoggedIn && <Link to="/login">login</Link>}
-        {!isLoggedIn && <Link to="/register">register</Link>}
-        {isLoggedIn && <Link to="/mylistings">my listings</Link>}
-        {isLoggedIn && <Link to="/alllistings">all listings</Link>}
-        {isLoggedIn && <Logout setIsLoggedIn={setIsLoggedIn} />}
-      </div>
-  )
-}
+        <Link to="/login">login</Link>
+       <Link to="/register">register</Link>
 
+      </div>
+    )
+  } else {
+    return (
+    <div className={styles.bigblue}>
+      <Link to="/">Home</Link>
+
+     <Link to="/mylistings">my listings</Link>
+     <Link to="/alllistings">all listings</Link>
+     <Logout setIsLoggedIn={setIsLoggedIn} />
+    </div>
+    )
+  }
+}
 export default Nav

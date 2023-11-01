@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Register = (props) => {
   const { setIsLoggedIn } = props
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const handleRegistrationSubmit = async () => {
+  const handleRegistrationSubmit = async (e) => {
+    e.preventDefault();
+
     if (password !== confirmPassword) alert('passwords entered do not match')
     const payload = {
       email,
       name,
       password,
     }
-    console.log(payload)
     const reqData = {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -29,8 +31,12 @@ const Register = (props) => {
     try {
       const fetchResponse = await fetch('http://localhost:5005/user/auth/register', reqData);
       const data = await fetchResponse.json();
+      console.log('Register res: ', data)
+      if (data) {
+        navigate('/', { replace: true });
+        setIsLoggedIn(true)
+      }
       localStorage.setItem('jwtToken', data.token)
-      setIsLoggedIn(true)
     } catch (e) {
       alert(e)
     }
