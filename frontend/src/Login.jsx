@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
   const { setIsLoggedIn } = props
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -26,6 +29,7 @@ const Login = (props) => {
       console.log('login res: ', data)
       localStorage.setItem('jwtToken', data.token)
       setIsLoggedIn(true)
+      navigate('/', { replace: true });
     } catch (e) {
       alert(e)
     }
