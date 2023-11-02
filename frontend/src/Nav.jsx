@@ -3,8 +3,6 @@ import {
   Link
 } from 'react-router-dom'
 import Logout from './Logout'
-// import MyListings from './MyListings'
-// import AllListings from './AllListings'
 import styles from './nav.module.css'
 
 const Nav = (props) => {

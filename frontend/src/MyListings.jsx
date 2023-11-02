@@ -1,9 +1,11 @@
 import React from 'react';
+import CreateListingPopup from './CreateListingPopup';
 
 const MyListings = () => {
   return (
       <div>
-          my listings
+          <CreateListingPopup/>
+          <div>my listings</div>
       </div>
   )
 }
