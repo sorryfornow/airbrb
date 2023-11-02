@@ -5,11 +5,18 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { fileToDataUrl } from './helpers.js';
 
 export default function CreateListingPopup () {
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
-  const [, setBedroomDetails] = useState([]);
+  const [title, setTitle] = useState('')
+  const [address, setAddress] = useState('')
+  const [price, setPrice] = useState('')
+  const [type, setType] = useState('')
+  const [numOfBath, setNumOfBath] = useState('')
+  const [thumbnail, setThumbnail] = useState('')
+  const [bedroomDetails, setBedroomDetails] = useState([]);
 
   //  reference: https://stackoverflow.com/questions/66469913/how-to-add-input-field-dynamically-when-user-click-on-button-in-react-js
   const addInput = () => {
@@ -34,10 +41,12 @@ export default function CreateListingPopup () {
   const handleChange = e => {
     e.preventDefault();
     const key = e.target.id;
-    const numOfGuests = e.target.value
+    const numOfGuests = Number(e.target.value)
     const newObj = { [`${key}`]: numOfGuests }
 
     console.log('key, numOfGuests', key, numOfGuests)
+    console.log('curr obj', bedroomDetails)
+
     setBedroomDetails(s => {
       const idx = s.findIndex((b) => Object.keys(b)[0] === key)
       if (idx > -1) {
@@ -64,6 +73,28 @@ export default function CreateListingPopup () {
     setOpen(false);
   };
 
+  const onTitleChange = (e) => setTitle(e.target.value);
+  const onAddressChange = (e) => setAddress(e.target.value);
+  const onPriceChange = (e) => setPrice(Number(e.target.value));
+  const onTypeChange = (e) => setType(e.target.value);
+  const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
+  const handleThumbnailChange = (e) => {
+    console.log('input value: ', e.target.files[0])
+    const filePromise = fileToDataUrl(e.target.files[0])
+    filePromise.then((image) => {
+      setThumbnail(image)
+    })
+  };
+
+  const handleSubmit = async () => {
+    // TODO: fix amenities
+    const metadata = { bedroomDetails, numOfBath, amenities: [] }
+    const payload = { title, address, price, type, thumbnail, metadata }
+    console.log('payload: ', payload)
+
+    setOpen(false);
+  };
+
   return (
     <React.Fragment>
       <Button variant="contained" onClick={handleClickOpen}>
@@ -79,6 +110,7 @@ export default function CreateListingPopup () {
               label="title"
               fullWidth
               variant="standard"
+              onChange={onTitleChange}
           />
           <TextField
               autoFocus
@@ -87,6 +119,8 @@ export default function CreateListingPopup () {
               label="address"
               fullWidth
               variant="standard"
+              onChange={onAddressChange}
+
           />
           <TextField
               autoFocus
@@ -95,6 +129,8 @@ export default function CreateListingPopup () {
               label="Price per night"
               fullWidth
               variant="standard"
+              onChange={onPriceChange}
+
           />
           <TextField
               autoFocus
@@ -103,6 +139,8 @@ export default function CreateListingPopup () {
               label="Property Type"
               fullWidth
               variant="standard"
+              onChange={onTypeChange}
+
           />
           <TextField
               autoFocus
@@ -111,26 +149,9 @@ export default function CreateListingPopup () {
               label="Number of bathrooms"
               fullWidth
               variant="standard"
+              onChange={onNumOfBathChange}
+
           />
-          <div>
-       Bedroom details:
-      {bedroomInputFields.map((item, i) => {
-        return (
-          <TextField
-          key={i}
-          onChange={handleChange}
-          autoFocus
-          margin="dense"
-          id={`bedroom${i + 1}`}
-          label={`Max # of guests in bedroom ${i + 1}`}
-          fullWidth
-          variant="standard"
-      />
-        );
-      })}
-          <Button variant="contained" onClick={deleteInput}>-</Button>
-          <Button variant="contained" onClick={addInput}>+</Button>
-    </div>
           <TextField
               autoFocus
               margin="dense"
@@ -139,12 +160,30 @@ export default function CreateListingPopup () {
               fullWidth
               variant="standard"
           />
-          <div>Thumbnail: <input type="file" /></div>
-
+          <div>Thumbnail: <input onChange={handleThumbnailChange} type="file" /></div>
+          <div>
+             Bedroom details:
+            {bedroomInputFields.map((item, i) => {
+              return (
+                <TextField
+                key={i}
+                onChange={handleChange}
+                autoFocus
+                margin="dense"
+                id={`bedroom${i + 1}`}
+                label={`Max # of guests in bedroom ${i + 1}`}
+                fullWidth
+                variant="standard"
+            />
+              );
+            })}
+                <Button variant="contained" onClick={deleteInput}>-</Button>
+                <Button variant="contained" onClick={addInput}>+</Button>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Submit</Button>
+          <Button onClick={handleSubmit} >Submit</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
