@@ -92,6 +92,25 @@ export default function CreateListingPopup () {
     const payload = { title, address, price, type, thumbnail, metadata }
     console.log('payload: ', payload)
 
+    const jwtToken = localStorage.getItem('jwtToken');
+
+    const reqData = {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwtToken}`
+      }
+    }
+    try {
+      const fetchResponse = await fetch('http://localhost:5005/listings/new', reqData);
+      const data = await fetchResponse.json();
+      console.log('create listing res: ', data)
+    } catch (e) {
+      alert(e)
+    }
+
     setOpen(false);
   };
 
