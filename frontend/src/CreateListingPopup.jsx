@@ -216,7 +216,7 @@ export default function CreateListingPopup () {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} >Submit</Button>
+          <Button onClick={handleSubmit} >Create</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
