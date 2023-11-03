@@ -80,6 +80,7 @@ export default function CreateListingPopup () {
   const onTypeChange = (e) => setType(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
   const handleThumbnailChange = (e) => {
+    e.preventDefault();
     console.log('input value: ', e.target.files[0])
     const filePromise = fileToDataUrl(e.target.files[0])
     filePromise.then((image) => {
@@ -87,27 +88,17 @@ export default function CreateListingPopup () {
     })
   };
   const handleAmenitiesChange = (e) => {
-    console.log('curr amenities: ', amenities)
     const amenity = e.target.value
     const checked = e.target.checked
-    console.log('checked: ', checked)
     if (checked) {
-      setAmenities(s => {
-        s.push(amenity)
-        console.log('after push: ', s)
-        return [
-          ...s
-        ];
-      });
+      const copy = [...amenities]
+      copy.push(amenity)
+      setAmenities(copy);
     } else {
-      setAmenities(s => {
-        const idx = s.findIndex((b) => b === amenity)
-        s.splice(idx, 1)
-        console.log('after splice: ', s)
-        return [
-          ...s
-        ];
-      });
+      const copy = [...amenities]
+      const idx = copy.findIndex((a) => a === amenity)
+      copy.splice(idx, 1)
+      setAmenities(copy);
     }
   }
 
