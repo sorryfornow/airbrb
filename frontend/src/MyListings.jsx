@@ -35,7 +35,7 @@ const MyListings = () => {
   return (
       <div>
           <CreateListingPopup/>
-          {listings.map((l, i) => <MyListingCard key={i} data={l}/>)}
+          {listings && listings.map((l, i) => <MyListingCard key={i} data={l}/>)}
       </div>
   )
 }
