@@ -5,6 +5,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
 
 export default function CreateListingPopup () {
@@ -16,6 +20,7 @@ export default function CreateListingPopup () {
   const [type, setType] = useState('')
   const [numOfBath, setNumOfBath] = useState('')
   const [thumbnail, setThumbnail] = useState('')
+  const [amenities, setAmenities] = useState([])
   const [bedroomDetails, setBedroomDetails] = useState([]);
 
   //  reference: https://stackoverflow.com/questions/66469913/how-to-add-input-field-dynamically-when-user-click-on-button-in-react-js
@@ -38,21 +43,17 @@ export default function CreateListingPopup () {
     });
   };
 
-  const handleChange = e => {
+  const handleBedroomDetailsChange = e => {
     e.preventDefault();
     const key = e.target.id;
     const numOfGuests = Number(e.target.value)
     const newObj = { [`${key}`]: numOfGuests }
-
-    console.log('key, numOfGuests', key, numOfGuests)
-    console.log('curr obj', bedroomDetails)
 
     setBedroomDetails(s => {
       const idx = s.findIndex((b) => Object.keys(b)[0] === key)
       if (idx > -1) {
         s.splice(idx, 1)
         s.push(newObj)
-        console.log('edited existing: ', s)
         return [
           ...s
         ];
@@ -85,11 +86,36 @@ export default function CreateListingPopup () {
       setThumbnail(image)
     })
   };
+  const handleAmenitiesChange = (e) => {
+    console.log('curr amenities: ', amenities)
+    const amenity = e.target.value
+    const checked = e.target.checked
+    console.log('checked: ', checked)
+    if (checked) {
+      setAmenities(s => {
+        s.push(amenity)
+        console.log('after push: ', s)
+        return [
+          ...s
+        ];
+      });
+    } else {
+      setAmenities(s => {
+        const idx = s.findIndex((b) => b === amenity)
+        s.splice(idx, 1)
+        console.log('after splice: ', s)
+        return [
+          ...s
+        ];
+      });
+    }
+  }
 
   const handleSubmit = async () => {
     // TODO: fix amenities
-    const metadata = { bedroomDetails, numOfBath, amenities: [] }
-    const payload = { title, address, price, type, thumbnail, metadata }
+    const addr = { addr: address }
+    const metadata = { bedroomDetails, numOfBath, amenities }
+    const payload = { title, address: addr, price, type, thumbnail, metadata }
     console.log('payload: ', payload)
 
     const jwtToken = localStorage.getItem('jwtToken');
@@ -171,22 +197,26 @@ export default function CreateListingPopup () {
               onChange={onNumOfBathChange}
 
           />
-          <TextField
-              autoFocus
-              margin="dense"
-              id="property-amenities"
-              label="Property amenities"
-              fullWidth
-              variant="standard"
-          />
           <div>Thumbnail: <input onChange={handleThumbnailChange} type="file" /></div>
+          <Divider />
+          <div>amenities:
+          <FormGroup>
+            <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Kitchen" value="Kitchen" />
+            <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Wi-Fi" value="Wi-Fi" />
+            <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Coffee maker" value="Coffee maker" />
+            <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="BBQ grill" value="BBQ grill" />
+            <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Swimming pool" value="Swimming pool" />
+            <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="TV" value="TV"/>
+          </FormGroup>
+          </div>
+          <Divider />
           <div>
              Bedroom details:
             {bedroomInputFields.map((item, i) => {
               return (
                 <TextField
                 key={i}
-                onChange={handleChange}
+                onChange={handleBedroomDetailsChange}
                 autoFocus
                 margin="dense"
                 id={`bedroom${i + 1}`}
