@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CreateListingPopup from './CreateListingPopup';
 import MyListingCard from './MyListingCard';
+import styles from './MyListings.module.css'
 
 const MyListings = () => {
   const [listings, setListings] = useState()
@@ -28,14 +29,13 @@ const MyListings = () => {
     getAllListings()
   }, [])
 
-  useEffect(() => {
-    if (listings && listings && listings.length !== 0) { console.log('final listings: ', listings) }
-  }, [listings])
-
   return (
-      <div>
+      <div >
           <CreateListingPopup/>
-          {listings && listings.map((l, i) => <MyListingCard key={i} data={l}/>)}
+          <div className={styles.myListings}>
+           {listings && listings.map((l, i) => <MyListingCard key={i} data={l}/>)}
+          </div>
+
       </div>
   )
 }

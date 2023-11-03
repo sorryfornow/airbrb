@@ -3,13 +3,13 @@ import {
   Link
 } from 'react-router-dom'
 import Logout from './Logout'
-import styles from './nav.module.css'
+import styles from './Nav.module.css'
 
 const Nav = (props) => {
   const { isLoggedIn, setIsLoggedIn } = props
   if (!isLoggedIn) {
     return (
-      <div className={styles.bigblue}>
+      <div className={styles.navBar}>
         <Link to="/">Home</Link>
         <Link to="/login">login</Link>
        <Link to="/register">register</Link>
@@ -18,7 +18,7 @@ const Nav = (props) => {
     )
   } else {
     return (
-    <div className={styles.bigblue}>
+    <div className={styles.navBar}>
       <Link to="/">Home</Link>
      <Link to="/alllistings">all listings</Link>
      <Link to="/mylistings">my listings</Link>
