@@ -32,6 +32,7 @@ const Login = (props) => {
         navigate('/', { replace: true });
         setIsLoggedIn(true)
       }
+      localStorage.setItem('userEmail', email)
       localStorage.setItem('jwtToken', data.token)
     } catch (e) {
       alert(e)
