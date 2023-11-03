@@ -48,22 +48,15 @@ export default function CreateListingPopup () {
     const key = e.target.id;
     const numOfGuests = Number(e.target.value)
     const newObj = { [`${key}`]: numOfGuests }
-
-    setBedroomDetails(s => {
-      const idx = s.findIndex((b) => Object.keys(b)[0] === key)
-      if (idx > -1) {
-        s.splice(idx, 1)
-        s.push(newObj)
-        return [
-          ...s
-        ];
-      } else {
-        s.push(newObj)
-        return [
-          ...s
-        ];
-      }
-    });
+    const copy = [...bedroomDetails]
+    const idx = copy.findIndex((b) => Object.keys(b)[0] === key)
+    if (idx > -1) {
+      copy[`${key}`] = numOfGuests
+      setBedroomDetails(copy)
+    } else {
+      copy.push(newObj)
+      setBedroomDetails(copy)
+    }
   };
 
   const handleClickOpen = () => {
