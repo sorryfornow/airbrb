@@ -6,7 +6,9 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function MyListingCard () {
+export default function MyListingCard (props) {
+  const { data } = props
+  console.log('data: ', data)
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -16,11 +18,10 @@ export default function MyListingCard () {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
+          {data.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {data.address.addr}
         </Typography>
       </CardContent>
       <CardActions>
