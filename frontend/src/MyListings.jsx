@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CreateListingPopup from './CreateListingPopup';
+import MyListingCard from './MyListingCard';
 
 const MyListings = () => {
   const [listings, setListings] = useState()
@@ -34,7 +35,7 @@ const MyListings = () => {
   return (
       <div>
           <CreateListingPopup/>
-          <div>my listings</div>
+          <MyListingCard />
       </div>
   )
 }
