@@ -16,7 +16,9 @@ const MyListings = () => {
         const fetchResponse = await fetch('http://localhost:5005/listings', reqData);
         const data = await fetchResponse.json();
         if (data) {
-          setListings(data)
+          console.log('data: ', data)
+          const mylistings = data.listings.filter((l) => l.owner === localStorage.getItem('userEmail'))
+          setListings(mylistings)
         }
       } catch (e) {
         alert(e)
@@ -26,7 +28,7 @@ const MyListings = () => {
   }, [])
 
   useEffect(() => {
-    if (listings && listings && listings.length !== 0) { console.log('listings: ', listings) }
+    if (listings && listings && listings.length !== 0) { console.log('final listings: ', listings) }
   }, [listings])
 
   return (
