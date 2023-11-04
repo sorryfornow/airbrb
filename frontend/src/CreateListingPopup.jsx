@@ -11,7 +11,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
 
-export default function CreateListingPopup () {
+export default function CreateListingPopup (props) {
+  const { listings, setListings } = props
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
   const [title, setTitle] = useState('')
@@ -117,6 +118,10 @@ export default function CreateListingPopup () {
       const fetchResponse = await fetch('http://localhost:5005/listings/new', reqData);
       const data = await fetchResponse.json();
       console.log('create listing res: ', data)
+      const copy = [...listings];
+      copy.push(payload)
+      console.log('copy after new listing added: ', copy)
+      setListings(copy)
     } catch (e) {
       alert(e)
     }

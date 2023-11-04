@@ -29,11 +29,15 @@ const MyListings = () => {
     getAllListings()
   }, [])
 
+  useEffect(() => {
+
+  }, [listings])
+
   return (
       <div >
-          <CreateListingPopup/>
+          <CreateListingPopup listings={listings} setListings={setListings}/>
           <div className={styles.myListings}>
-           {listings && listings.map((l, i) => <MyListingCard key={i} data={l}/>)}
+           {listings && listings.map((l, i) => <MyListingCard key={i} data={l} />)}
           </div>
 
       </div>
