@@ -10,9 +10,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function EditListingPopup (props) {
+  const { id } = useParams()
+  console.log('edit popup param id: ', id)
   const { data } = props
   const navigate = useNavigate();
   const { listings, setListings } = props
@@ -28,6 +30,7 @@ export default function EditListingPopup (props) {
   const [bedroomDetails, setBedroomDetails] = useState([]);
 
   useEffect(() => {
+    setTitle(data.title)
     console.log('data edit popup: ', data)
   }, [])
 

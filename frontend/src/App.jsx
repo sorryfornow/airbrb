@@ -8,7 +8,7 @@ import Login from './Login'
 import Register from './Register'
 import Nav from './Nav'
 import MyListings from './MyListings';
-import Test from './Test'
+import EditListingPopup from './EditListingPopup';
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [allListings, setAllListings] = useState()
@@ -26,7 +26,6 @@ function App () {
         const fetchResponse = await fetch('http://localhost:5005/listings', reqData);
         const data = await fetchResponse.json();
         if (data) {
-          console.log('data: ', data)
           const userListings = data.listings.filter((l) => l.owner === localStorage.getItem('userEmail'))
           setAllListings(data.listings)
           setMyListings(userListings)
@@ -39,8 +38,6 @@ function App () {
   }, [])
 
   useEffect(() => {
-    console.log('all listings from App: ', allListings)
-    console.log('my listings from App: ', myListings)
   }, [allListings, myListings])
   if (!isLoggedIn) {
     return (
@@ -60,8 +57,10 @@ function App () {
           <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/mylistings" element={<MyListings myListings={myListings}/>} />
-          <Route path="/mylistings/:name" element={<Test data={'hello'} />} />
+          <Route path="/mylistings" element={<MyListings myListings={myListings}/>}>
+           <Route path="/mylistings/:id" element={<EditListingPopup />} />
+          </Route >
+
           </Routes>
           <hr />
       </>

@@ -9,7 +9,6 @@ import EditListingPopup from './EditListingPopup'
 
 export default function MyListingCard (props) {
   const { data } = props
-  console.log('data: ', data)
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
