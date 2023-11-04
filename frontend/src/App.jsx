@@ -60,7 +60,6 @@ function App () {
           <Route path="/mylistings" element={<MyListings myListings={myListings}/>}>
            <Route path="/mylistings/:id" element={<EditListingPopup />} />
           </Route >
-
           </Routes>
           <hr />
       </>

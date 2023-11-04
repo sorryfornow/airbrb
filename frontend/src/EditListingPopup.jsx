@@ -13,11 +13,11 @@ import { fileToDataUrl } from './helpers.js';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function EditListingPopup (props) {
+  const { data, listings, setListings } = props
   const { id } = useParams()
-  console.log('edit popup param id: ', id)
-  const { data } = props
+  //   const [paramID, setParamID] = useState('')
   const navigate = useNavigate();
-  const { listings, setListings } = props
+  //   const [listing, setListing] = useState()
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
   const [title, setTitle] = useState('')
@@ -31,8 +31,16 @@ export default function EditListingPopup (props) {
 
   useEffect(() => {
     setTitle(data.title)
-    console.log('data edit popup: ', data)
+    // console.log('data edit popup: ', data)
   }, [])
+
+  useEffect(() => {
+    console.log('userEFFECT edit popup param listingID: ', id)
+  }, [id])
+
+  //   useEffect(() => {
+  //     console.log('Edit Popup full listing: ', listing)
+  //   }, [listing])
 
   //  reference: https://stackoverflow.com/questions/66469913/how-to-add-input-field-dynamically-when-user-click-on-button-in-react-js
   const addInput = () => {
