@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import EditListingPopup from './EditListingPopup'
 
 export default function MyListingCard (props) {
   const { data } = props
@@ -25,7 +26,7 @@ export default function MyListingCard (props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Edit</Button>
+        <EditListingPopup/>
         <Button size="small">Publish</Button>
       </CardActions>
     </Card>

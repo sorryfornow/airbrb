@@ -11,7 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
 
-export default function CreateListingPopup (props) {
+export default function EditListingPopup (props) {
   const { listings, setListings } = props
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
@@ -132,10 +132,10 @@ export default function CreateListingPopup (props) {
   return (
     <React.Fragment>
       <Button variant="contained" onClick={handleClickOpen}>
-        Create New Listing
+        Edit
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create New Listing</DialogTitle>
+        <DialogTitle>Edit</DialogTitle>
         <DialogContent>
           <TextField
               autoFocus
