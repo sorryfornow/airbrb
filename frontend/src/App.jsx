@@ -8,7 +8,7 @@ import Login from './Login'
 import Register from './Register'
 import Nav from './Nav'
 import MyListings from './MyListings';
-import Test from './EditListing';
+import EditListing from './EditListing';
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [allListings, setAllListings] = useState()
@@ -58,7 +58,7 @@ function App () {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/mylistings" element={<MyListings myListings={myListings}/>}/>
-            <Route path="/mylistings/:id" element={<Test />} />
+            <Route path="/mylistings/:id" element={<EditListing />} />
           </Routes>
           <hr />
       </>
