@@ -10,9 +10,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditListingPopup (props) {
   const { data } = props
+  const navigate = useNavigate();
   const { listings, setListings } = props
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
@@ -26,8 +28,7 @@ export default function EditListingPopup (props) {
   const [bedroomDetails, setBedroomDetails] = useState([]);
 
   useEffect(() => {
-    setTitle(data.title)
-    setAddress(data.address.addr)
+    console.log('data edit popup: ', data)
   }, [])
 
   //  reference: https://stackoverflow.com/questions/66469913/how-to-add-input-field-dynamically-when-user-click-on-button-in-react-js
@@ -68,6 +69,7 @@ export default function EditListingPopup (props) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    navigate(`/mylistings/${data.id}`, { replace: true });
   };
 
   const handleClose = () => {
@@ -138,7 +140,7 @@ export default function EditListingPopup (props) {
   return (
     <React.Fragment>
       <Button variant="contained" onClick={handleClickOpen}>
-        Edit
+       Edit
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Listing</DialogTitle>

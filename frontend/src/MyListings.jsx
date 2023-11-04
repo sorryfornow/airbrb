@@ -3,34 +3,15 @@ import CreateListingPopup from './CreateListingPopup';
 import MyListingCard from './MyListingCard';
 import styles from './MyListings.module.css'
 
-const MyListings = () => {
+const MyListings = (props) => {
+  const { myListings } = props
   const [listings, setListings] = useState()
+
   useEffect(() => {
-    async function getAllListings () {
-      const reqData = {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }
-      }
-      try {
-        const fetchResponse = await fetch('http://localhost:5005/listings', reqData);
-        const data = await fetchResponse.json();
-        if (data) {
-          console.log('data: ', data)
-          const mylistings = data.listings.filter((l) => l.owner === localStorage.getItem('userEmail'))
-          setListings(mylistings)
-        }
-      } catch (e) {
-        alert(e)
-      }
-    }
-    getAllListings()
+    setListings(myListings)
   }, [])
 
   useEffect(() => {
-
   }, [listings])
 
   return (
