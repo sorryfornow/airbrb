@@ -9,7 +9,6 @@ import Login from './Login'
 import Register from './Register'
 import Nav from './Nav'
 import MyListings from './MyListings';
-import AllListings from './AllListings';
 
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -35,7 +34,6 @@ function App () {
           <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mylistings" element={<MyListings />} />
-          <Route path="/alllistings" element={<AllListings />} />
         </Routes>
           <hr />
         </BrowserRouter>
