@@ -10,11 +10,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditListingPopup (props) {
   const { data, listings, setListings } = props
-  const { id } = useParams()
   //   const [paramID, setParamID] = useState('')
   const navigate = useNavigate();
   //   const [listing, setListing] = useState()
@@ -35,8 +34,8 @@ export default function EditListingPopup (props) {
   }, [])
 
   useEffect(() => {
-    console.log('userEFFECT edit popup param listingID: ', id)
-  }, [id])
+    console.log('userEFFECT edit popup param listingID: ', data.id)
+  }, [])
 
   //   useEffect(() => {
   //     console.log('Edit Popup full listing: ', listing)
@@ -231,7 +230,7 @@ export default function EditListingPopup (props) {
                 autoFocus
                 margin="dense"
                 id={`bedroom${i + 1}`}
-                label={`Max # of beds in bedroom ${i + 1}`}
+                label={`Number of beds in bedroom ${i + 1}`}
                 fullWidth
                 variant="standard"
             />

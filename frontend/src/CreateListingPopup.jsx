@@ -209,7 +209,7 @@ export default function CreateListingPopup (props) {
                 autoFocus
                 margin="dense"
                 id={`bedroom${i + 1}`}
-                label={`Max # of beds in bedroom ${i + 1}`}
+                label={`Number of beds in bedroom ${i + 1}`}
                 fullWidth
                 variant="standard"
             />

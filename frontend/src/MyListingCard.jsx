@@ -5,10 +5,14 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import EditListingPopup from './EditListingPopup'
+import { useNavigate } from 'react-router-dom';
 
 export default function MyListingCard (props) {
   const { data } = props
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    navigate(`/mylistings/${data.id}`, { replace: true });
+  };
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -25,7 +29,7 @@ export default function MyListingCard (props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <EditListingPopup data={data}/>
+        <Button onClick={handleEdit} size="small">Edit</Button>
         <Button size="small">Publish</Button>
       </CardActions>
     </Card>
