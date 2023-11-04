@@ -26,7 +26,7 @@ export default function MyListingCard (props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <EditListingPopup/>
+        <EditListingPopup data={data}/>
         <Button size="small">Publish</Button>
       </CardActions>
     </Card>

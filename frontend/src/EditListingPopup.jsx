@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
 
 export default function EditListingPopup (props) {
+  const { data } = props
   const { listings, setListings } = props
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
@@ -23,6 +24,11 @@ export default function EditListingPopup (props) {
   const [thumbnail, setThumbnail] = useState('')
   const [amenities, setAmenities] = useState([])
   const [bedroomDetails, setBedroomDetails] = useState([]);
+
+  useEffect(() => {
+    setTitle(data.title)
+    setAddress(data.address.addr)
+  }, [])
 
   //  reference: https://stackoverflow.com/questions/66469913/how-to-add-input-field-dynamically-when-user-click-on-button-in-react-js
   const addInput = () => {
@@ -135,8 +141,8 @@ export default function EditListingPopup (props) {
         Edit
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit</DialogTitle>
-        <DialogContent>
+        <DialogTitle>Edit Listing</DialogTitle>
+        {data && <DialogContent>
           <TextField
               autoFocus
               margin="dense"
@@ -145,6 +151,8 @@ export default function EditListingPopup (props) {
               fullWidth
               variant="standard"
               onChange={onTitleChange}
+              value={title}
+              data-shrink={true}
           />
           <TextField
               autoFocus
@@ -154,7 +162,8 @@ export default function EditListingPopup (props) {
               fullWidth
               variant="standard"
               onChange={onAddressChange}
-
+              value={address}
+              data-shrink={true}
           />
           <TextField
               autoFocus
@@ -164,7 +173,7 @@ export default function EditListingPopup (props) {
               fullWidth
               variant="standard"
               onChange={onPriceChange}
-
+              data-shrink={true}
           />
           <TextField
               autoFocus
@@ -174,7 +183,7 @@ export default function EditListingPopup (props) {
               fullWidth
               variant="standard"
               onChange={onTypeChange}
-
+              data-shrink={true}
           />
           <TextField
               autoFocus
@@ -184,7 +193,7 @@ export default function EditListingPopup (props) {
               fullWidth
               variant="standard"
               onChange={onNumOfBathChange}
-
+              data-shrink={true}
           />
           <div>Thumbnail: <input onChange={handleThumbnailChange} type="file" /></div>
           <Divider />
@@ -218,10 +227,10 @@ export default function EditListingPopup (props) {
                 <Button variant="contained" onClick={deleteInput}>-</Button>
                 <Button variant="contained" onClick={addInput}>+</Button>
           </div>
-        </DialogContent>
+        </DialogContent>}
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} >Create</Button>
+          <Button onClick={handleSubmit} >Save</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
