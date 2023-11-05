@@ -6,10 +6,8 @@ import styles from './MyListings.module.css'
 const MyListings = (props) => {
   const { myListings } = props
   const [listings, setListings] = useState([])
-  const [fullListings, setFullListings] = useState([])
 
   useEffect(() => {
-    setListings(myListings)
     const arr = []
     const listingIDs = myListings.map((l) => l.id)
     console.log('all IDs: ', listingIDs)
@@ -30,7 +28,7 @@ const MyListings = (props) => {
           arr.push(res.listing)
           console.log('COPY after push: ', arr)
           if (arr.length === listingIDs.length) {
-            setFullListings(arr)
+            setListings(arr)
           }
         }
       } catch (e) {
@@ -44,8 +42,8 @@ const MyListings = (props) => {
   }, [])
 
   useEffect(() => {
-    console.log('full listings: ', fullListings)
-  }, [fullListings])
+    console.log('full listings: ', listings)
+  }, [listings])
 
   return (
       <div >
