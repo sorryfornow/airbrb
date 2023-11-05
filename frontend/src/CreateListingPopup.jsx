@@ -99,8 +99,8 @@ export default function CreateListingPopup (props) {
   const handleSubmit = async () => {
     // TODO: fix amenities
     const addr = { addr: address }
-    const metadata = { bedroomDetails, numOfBath, amenities }
-    const payload = { title, address: addr, price, type, thumbnail, metadata }
+    const metadata = { bedroomDetails, numOfBath, amenities, type }
+    const payload = { title, address: addr, price, thumbnail, metadata }
     console.log('payload: ', payload)
 
     const jwtToken = localStorage.getItem('jwtToken');

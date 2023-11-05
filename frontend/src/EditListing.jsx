@@ -10,15 +10,17 @@ import { fileToDataUrl } from './helpers.js';
 
 const EditListing = (props) => {
   const { id } = useParams()
-  const [listing, setListing] = useState()
+  const [listing, setListing] = useState({})
 
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
+  const [imgInputFields, setImgInputFields] = useState([]);
   const [title, setTitle] = useState('')
   const [address, setAddress] = useState('')
   const [price, setPrice] = useState('')
   const [type, setType] = useState('')
   const [numOfBath, setNumOfBath] = useState('')
   const [thumbnail, setThumbnail] = useState('')
+  const [images, setImages] = useState([])
   const [amenities, setAmenities] = useState([])
   const [bedroomDetails, setBedroomDetails] = useState([]);
 
@@ -40,7 +42,13 @@ const EditListing = (props) => {
         const res = await fetchResponse.json();
         if (res) {
           setListing(res.listing)
-          setTitle(res.listing.title)
+          const l = res.listing
+          setTitle(l.title || 'unkown')
+          setAddress(l.address.addr || 'unkown')
+          setPrice(l.price || 'unkown')
+          setType(l.metadata.type || 'unkown')
+          setNumOfBath(l.metadata.numOfBath || 'unkown')
+          setThumbnail(l.thumbnail || 'unkown')
         }
       } catch (e) {
         alert(e)
@@ -69,6 +77,56 @@ const EditListing = (props) => {
     });
   };
 
+  const handleThumbnailChange = (e) => {
+    e.preventDefault();
+    const filePromise = fileToDataUrl(e.target.files[0])
+    filePromise.then((image) => {
+      setThumbnail(image)
+    })
+  };
+
+  const handleImagesChange = (e) => {
+    e.preventDefault();
+    console.log('hi images change')
+    console.log('IMG CHANGE e.target.key', e.target.id)
+    console.log('input value: ', e.target.files[0])
+    const filePromise = fileToDataUrl(e.target.files[0])
+    filePromise.then((res) => {
+      const uploadedImg = { id: e.target.id, img: res }
+      const copy = [...images];
+      const existingImg = copy.find((i) => i.id === uploadedImg.id)
+      if (existingImg) {
+        existingImg.img = uploadedImg.img
+        setImages(copy)
+      } else {
+        const copy = [...images];
+        copy.push(uploadedImg)
+        setImages(copy)
+      }
+    })
+  };
+
+  const addImgInput = () => {
+    setImgInputFields(s => {
+      return [
+        ...s,
+        <input onChange={handleImagesChange} type="file" key={imgInputFields.length}/>
+      ];
+    });
+  };
+  const deleteImgInput = () => {
+    setImgInputFields(s => {
+      s.splice(-1)
+      return [
+        ...s
+      ];
+    });
+
+    const copy = [...images]
+    copy.pop();
+    setImages(copy);
+  };
+
   const handleBedroomDetailsChange = e => {
     e.preventDefault();
     const key = e.target.id;
@@ -90,14 +148,6 @@ const EditListing = (props) => {
   const onPriceChange = (e) => setPrice(Number(e.target.value));
   const onTypeChange = (e) => setType(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
-  const handleThumbnailChange = (e) => {
-    e.preventDefault();
-    console.log('input value: ', e.target.files[0])
-    const filePromise = fileToDataUrl(e.target.files[0])
-    filePromise.then((image) => {
-      setThumbnail(image)
-    })
-  };
   const handleAmenitiesChange = (e) => {
     const amenity = e.target.value
     const checked = e.target.checked
@@ -115,6 +165,7 @@ const EditListing = (props) => {
 
   const handleSave = async () => {
     console.log(title, address, price, type, numOfBath, thumbnail)
+    console.log('IMAGES UPLOADED: ', images)
   };
 
   const handleCancel = async () => {
@@ -133,6 +184,7 @@ const EditListing = (props) => {
             variant="standard"
             value={title}
             onChange={onTitleChange}
+            data-shrink={true}
         />
         <TextField
             autoFocus
@@ -141,8 +193,9 @@ const EditListing = (props) => {
             label="address"
             fullWidth
             variant="standard"
+            value={address}
             onChange={onAddressChange}
-
+            data-shrink={true}
         />
         <TextField
             autoFocus
@@ -152,6 +205,8 @@ const EditListing = (props) => {
             fullWidth
             variant="standard"
             onChange={onPriceChange}
+            value={price}
+            data-shrink={true}
 
         />
         <TextField
@@ -162,7 +217,8 @@ const EditListing = (props) => {
             fullWidth
             variant="standard"
             onChange={onTypeChange}
-
+            value={type}
+            data-shrink={true}
         />
         <TextField
             autoFocus
@@ -172,7 +228,8 @@ const EditListing = (props) => {
             fullWidth
             variant="standard"
             onChange={onNumOfBathChange}
-
+            value={numOfBath}
+            data-shrink={true}
         />
         <div>Thumbnail: <input onChange={handleThumbnailChange} type="file" /></div>
         <Divider />
@@ -205,6 +262,10 @@ const EditListing = (props) => {
           })}
               <Button variant="contained" onClick={deleteInput}>-</Button>
               <Button variant="contained" onClick={addInput}>+</Button>
+        </div>
+        <div>List of Images: {imgInputFields.map((item, i) => { return (<input key={i} id={i} onChange={handleImagesChange} type="file" />) }) }
+               <Button variant="contained" onClick={deleteImgInput}>-</Button>
+              <Button variant="contained" onClick={addImgInput}>+</Button>
         </div>
         </div>}
         <Button onClick={handleCancel}>Cancel</Button>
