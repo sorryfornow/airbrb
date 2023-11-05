@@ -43,7 +43,7 @@ export default function MyListingCard (props) {
           Type: {data.metadata.type || 'unkown'}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Number of beds: {data.metadata.type || 'unkown'}
+          Number of beds: {numOfBeds || 'unkown'}
         </Typography>
       </CardContent>
       <CardActions>
