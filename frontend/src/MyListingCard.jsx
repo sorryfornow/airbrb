@@ -18,7 +18,7 @@ export default function MyListingCard (props) {
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 300 }}
-        image={require('./house_icon_1.png')}
+        image={data.thumbnail || require('./house_icon_1.png')}
         title="green iguana"
       />
       <CardContent>
