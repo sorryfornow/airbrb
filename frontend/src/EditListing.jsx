@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
@@ -11,6 +11,7 @@ import { fileToDataUrl } from './helpers.js';
 const EditListing = (props) => {
   const { id } = useParams()
   const [listing, setListing] = useState({})
+  const navigate = useNavigate();
 
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
   const [imgInputFields, setImgInputFields] = useState([]);
@@ -145,7 +146,7 @@ const EditListing = (props) => {
 
   const onTitleChange = (e) => setTitle(e.target.value);
   const onAddressChange = (e) => setAddress(e.target.value);
-  const onPriceChange = (e) => setPrice(Number(e.target.value));
+  const onPriceChange = (e) => setPrice(e.target.value);
   const onTypeChange = (e) => setType(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
   const handleAmenitiesChange = (e) => {
@@ -164,11 +165,37 @@ const EditListing = (props) => {
   }
 
   const handleSave = async () => {
-    console.log(title, address, price, type, numOfBath, thumbnail)
-    console.log('IMAGES UPLOADED: ', images)
+    if (isNaN(Number(price))) { alert('invalid price, please enter a valid number'); return }
+    const addr = { addr: address }
+    const metadata = { bedroomDetails, numOfBath, amenities, type, images }
+    const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
+    console.log('payload: ', payload)
+
+    const jwtToken = localStorage.getItem('jwtToken');
+    const reqData = {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwtToken}`
+      }
+    }
+    try {
+      const fetchResponse = await fetch(`http://localhost:5005/listings/${id}`, reqData);
+      const data = await fetchResponse.json();
+      console.log('edit listing res: ', data)
+      navigate('/mylistings/', { replace: true });
+    } catch (e) {
+      alert(e)
+    }
   };
 
-  const handleCancel = async () => {
+  const handleCancel = () => {
+    navigate('/mylistings/', { replace: true });
+  };
+
+  const handleDelete = () => {
   };
 
   return (
@@ -269,7 +296,8 @@ const EditListing = (props) => {
         </div>
         </div>}
         <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleSave} >Save</Button>
+        <Button onClick={handleSave} variant="contained" color="success">Save</Button>
+        <Button onClick={handleDelete} variant="contained" color="error" >Delete listing</Button>
     </React.Fragment>
   )
 }
