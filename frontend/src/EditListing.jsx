@@ -92,7 +92,7 @@ const EditListing = (props) => {
     console.log('input value: ', e.target.files[0])
     const filePromise = fileToDataUrl(e.target.files[0])
     filePromise.then((res) => {
-      const uploadedImg = { id: e.target.id, img: res }
+      const uploadedImg = { id: Number(e.target.id), img: res }
       const copy = [...images];
       const existingImg = copy.find((i) => i.id === uploadedImg.id)
       if (existingImg) {
