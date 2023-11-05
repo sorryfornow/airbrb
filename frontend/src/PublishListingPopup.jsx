@@ -1,15 +1,33 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import DateSelector from './DateSelector';
 export default function PublishListingPopup () {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [dateSelectorFields, setDateSelectorFields] = useState([<DateSelector key={0}/>]);
+
+  const addInput = () => {
+    setDateSelectorFields(s => {
+      return [
+        ...s,
+        <DateSelector
+        key={dateSelectorFields.length}
+       />
+      ];
+    });
+  };
+  const deleteInput = () => {
+    setDateSelectorFields(s => {
+      s.splice(-1)
+      return [
+        ...s
+      ];
+    });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,9 +48,10 @@ export default function PublishListingPopup () {
           <DialogContentText>
             Please enter available dates:
           </DialogContentText>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
-          </LocalizationProvider>
+          {dateSelectorFields.map((d, i) => <DateSelector key={i}/>
+          )}
+         <Button variant="contained" onClick={deleteInput}>-</Button>
+         <Button variant="contained" onClick={addInput}>+</Button>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
