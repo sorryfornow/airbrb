@@ -45,6 +45,15 @@ export default function MyListingCard (props) {
         <Typography variant="body2" color="text.secondary">
           Number of beds: {numOfBeds || 'unkown'}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Rating:
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Number of reviews: {data.reviews.length}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Price: {data.price || 'unkown'}
+        </Typography>
       </CardContent>
       <CardActions>
         <Button onClick={handleEdit} size="small">Edit</Button>
