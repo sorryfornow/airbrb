@@ -22,6 +22,7 @@ const MyListings = (props) => {
         const fetchResponse = await fetch(`http://localhost:5005/listings/${id}`, reqData);
         const res = await fetchResponse.json();
         if (res) {
+          res.listing.id = id
           arr.push(res.listing)
           if (arr.length === listingIDs.length) {
             setListings(arr)

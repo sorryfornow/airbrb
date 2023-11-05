@@ -17,12 +17,11 @@ export default function MyListingCard (props) {
     const bedsArr = []
     bedrooomDetails.forEach((b) => bedsArr.push(Object.values(b)))
     const bedNumArr = bedsArr.flat()
-    console.log('bedNumArr: ', bedNumArr)
     for (let i = 0; i < bedNumArr.length; i++) { numOfBeds += bedNumArr[i] }
-    console.log('total num of beds: ', numOfBeds)
   }
   const navigate = useNavigate();
   const handleEdit = () => {
+    console.log('data EDIT: ', data)
     navigate(`/mylistings/${data.id}`, { replace: true });
   };
   return (
