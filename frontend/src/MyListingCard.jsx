@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import PublishListingPopup from './PublishListingPopup';
 
 export default function MyListingCard (props) {
   const { data } = props
@@ -30,7 +31,8 @@ export default function MyListingCard (props) {
       </CardContent>
       <CardActions>
         <Button onClick={handleEdit} size="small">Edit</Button>
-        <Button size="small">Publish</Button>
+        <PublishListingPopup/>
+        <Button size="small">Delete</Button>
       </CardActions>
     </Card>
   );
