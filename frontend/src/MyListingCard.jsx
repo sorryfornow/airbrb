@@ -10,6 +10,17 @@ import PublishListingPopup from './PublishListingPopup';
 
 export default function MyListingCard (props) {
   const { data } = props
+  const bedrooomDetails = data.metadata.bedroomDetails
+  let numOfBeds = 0
+  if (bedrooomDetails && bedrooomDetails.length > 0) {
+    // const bedInfo = Object.values(bedrooomDetails)
+    const bedsArr = []
+    bedrooomDetails.forEach((b) => bedsArr.push(Object.values(b)))
+    const bedNumArr = bedsArr.flat()
+    console.log('bedNumArr: ', bedNumArr)
+    for (let i = 0; i < bedNumArr.length; i++) { numOfBeds += bedNumArr[i] }
+    console.log('total num of beds: ', numOfBeds)
+  }
   const navigate = useNavigate();
   const handleEdit = () => {
     navigate(`/mylistings/${data.id}`, { replace: true });
@@ -23,10 +34,16 @@ export default function MyListingCard (props) {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {data.title}
+          {data.title || 'no title'}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {data.address.addr}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Type: {data.metadata.type || 'unkown'}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Number of beds: {data.metadata.type || 'unkown'}
         </Typography>
       </CardContent>
       <CardActions>

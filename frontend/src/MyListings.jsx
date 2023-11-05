@@ -10,7 +10,6 @@ const MyListings = (props) => {
   useEffect(() => {
     const arr = []
     const listingIDs = myListings.map((l) => l.id)
-    console.log('all IDs: ', listingIDs)
     async function getFullListing (id) {
       const reqData = {
         method: 'GET',
@@ -23,10 +22,7 @@ const MyListings = (props) => {
         const fetchResponse = await fetch(`http://localhost:5005/listings/${id}`, reqData);
         const res = await fetchResponse.json();
         if (res) {
-          console.log('COPY before push: ', arr)
-
           arr.push(res.listing)
-          console.log('COPY after push: ', arr)
           if (arr.length === listingIDs.length) {
             setListings(arr)
           }
@@ -38,12 +34,7 @@ const MyListings = (props) => {
     for (let i = 0; i < listingIDs.length; i++) {
       getFullListing(listingIDs[i])
     }
-    console.log('arrrrr: ', arr)
   }, [])
-
-  useEffect(() => {
-    console.log('full listings: ', listings)
-  }, [listings])
 
   return (
       <div >
