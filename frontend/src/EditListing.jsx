@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import CardMedia from '@mui/material/CardMedia';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
@@ -249,7 +250,13 @@ const EditListing = (props) => {
             value={numOfBath}
             data-shrink={true}
         />
-        <div>Thumbnail: <input onChange={handleThumbnailChange} type="file" /></div>
+        <div>Thumbnail:
+          <CardMedia
+           sx={{ height: 50, width: 50 }}
+           image={thumbnail || require('./house_icon_1.png')}
+           title="green iguana"
+          />
+          <input onChange={handleThumbnailChange} type="file" /></div>
         <Divider />
         <div>amenities:
         <FormGroup>
