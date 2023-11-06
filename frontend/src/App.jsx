@@ -53,8 +53,9 @@ function App () {
   } else {
     return (
       <>
-          <Search/>
           <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+          <hr />
+          <Search/>
           <Routes>
             <Route path="/" element={<Home allListings={allListings}/>} />
             <Route path="/:id" element={<Listing />} />
