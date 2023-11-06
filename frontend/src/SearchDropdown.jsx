@@ -5,16 +5,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SearchDropdown () {
-  const [filter, setFilter] = React.useState('');
+export default function SearchDropdown (props) {
+  const { searchFilter, setSearchFilter } = props
 
   const handleChange = (event) => {
-    setFilter(event.target.value);
+    setSearchFilter(event.target.value);
   };
 
   useEffect(() => {
-    console.log('search filter: ', filter)
-  }, [filter])
+  }, [searchFilter])
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -23,7 +22,7 @@ export default function SearchDropdown () {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={filter}
+          value={searchFilter}
           label="Seach By"
           onChange={handleChange}
         >
