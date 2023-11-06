@@ -9,6 +9,7 @@ import Register from './Register'
 import Nav from './Nav'
 import MyListings from './MyListings';
 import EditListing from './EditListing';
+import Listing from './Listing'
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [allListings, setAllListings] = useState()
@@ -40,9 +41,10 @@ function App () {
         <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <hr />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home allListings={allListings} />} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/:id" element={<Listing />} />
         </Routes>
     </>
     );
@@ -51,7 +53,8 @@ function App () {
       <>
           <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home allListings={allListings}/>} />
+            <Route path="/:id" element={<Listing />} />
             <Route path="/mylistings" element={<MyListings allListings={allListings}/>}/>
             <Route path="/mylistings/:id" element={<EditListing />} />
           </Routes>

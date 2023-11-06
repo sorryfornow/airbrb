@@ -25,7 +25,7 @@ export default function MyListingCard (props) {
     navigate(`/mylistings/${data.id}`, { replace: true });
   };
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: 345 }}>
       <CardMedia
         sx={{ height: 300 }}
         image={data.thumbnail || require('./house_icon_1.png')}
