@@ -16,7 +16,7 @@ const EditListing = (props) => {
   const [listing, setListing] = useState({})
   const navigate = useNavigate();
 
-  const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
+  const [bedroomInputFields, setBedroomInputFields] = useState([]);
   const [imgInputFields, setImgInputFields] = useState([]);
   const [title, setTitle] = useState('')
   const [address, setAddress] = useState('')
@@ -53,23 +53,28 @@ const EditListing = (props) => {
           setType(l.metadata.type || 'unkown')
           setNumOfBath(l.metadata.numOfBath || 'unknown')
           setThumbnail(l.thumbnail || 'unkown')
-          setImages(l.metadata.images)
-          const initialImages = l.metadata.images
-          const initialImageInputs = []
-          for (let i = 0; i < initialImages.length; i++) {
-            const currImgInput = <input type="file" key={i}/>
-            initialImageInputs.push(currImgInput)
-          }
-          setImgInputFields(initialImageInputs)
-
+          if (l.metadata.images) setImages(l.metadata.images)
           setBedroomDetails(l.metadata.bedroomDetails)
-          const initialBedroomDetails = l.metadata.bedroomDetails
-          const initialBedroomInputs = []
-          for (let i = 0; i < initialBedroomDetails.length; i++) {
-            const currbdInput = <TextField key={i}/>
-            initialBedroomInputs.push(currbdInput)
+
+          const initialImages = l.metadata.images
+          if (initialImages && initialImages.length > 0) {
+            const initialImageInputs = []
+            for (let i = 0; i < initialImages.length; i++) {
+              const currImgInput = <input type="file" key={i}/>
+              initialImageInputs.push(currImgInput)
+            }
+            setImgInputFields(initialImageInputs)
           }
-          setBedroomInputFields(initialBedroomInputs)
+
+          const initialBedroomDetails = l.metadata.bedroomDetails
+          if (initialBedroomDetails && initialBedroomDetails.length) {
+            const initialBedroomInputs = []
+            for (let i = 0; i < initialBedroomDetails.length; i++) {
+              const currbdInput = <TextField key={i}/>
+              initialBedroomInputs.push(currbdInput)
+            }
+            setBedroomInputFields(initialBedroomInputs)
+          }
         }
       } catch (e) {
         alert(e)
@@ -89,7 +94,7 @@ const EditListing = (props) => {
       ];
     });
     const copy = [...bedroomDetails]
-    const newbd = { [`bedroom${bedroomDetails.length}`]: 0 }
+    const newbd = { [`bedroom${bedroomDetails.length + 1}`]: undefined }
     copy.push(newbd)
     setBedroomDetails(copy)
   };
@@ -302,7 +307,7 @@ const EditListing = (props) => {
         <Divider />
         <div>
           Bedroom details:
-          {bedroomInputFields.map((item, i) => {
+          {bedroomInputFields.length > 0 && bedroomInputFields.map((item, i) => {
             return (
               <TextField
               key={i}
@@ -313,6 +318,7 @@ const EditListing = (props) => {
               label={`Number of beds in bedroom ${i + 1}`}
               fullWidth
               variant="standard"
+              value={bedroomDetails[i][`bedroom${i + 1}`] || ''}
           />
             );
           })}
@@ -321,7 +327,7 @@ const EditListing = (props) => {
         </div>
         <div className={styles.listOfImages}>
             List of Images:
-              {imgInputFields.map((item, i) => {
+              {imgInputFields.length > 0 && imgInputFields.map((item, i) => {
                 return (
                 <div key={i}>
                    <CardMedia
