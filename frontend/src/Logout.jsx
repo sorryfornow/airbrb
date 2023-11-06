@@ -1,8 +1,10 @@
 import React from 'react';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Logout = (props) => {
   const { setIsLoggedIn } = props
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     const jwtToken = localStorage.getItem('jwtToken');
@@ -20,6 +22,7 @@ const Logout = (props) => {
       const fetchResponse = await fetch('http://localhost:5005/user/auth/logout', reqData);
       const data = await fetchResponse.json();
       console.log('logout res: ', data)
+      navigate('/', { replace: true });
       setIsLoggedIn(false)
     } catch (e) {
       alert(e)
