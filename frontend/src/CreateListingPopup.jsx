@@ -16,7 +16,8 @@ export default function CreateListingPopup (props) {
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
   const [title, setTitle] = useState('')
-  const [address, setAddress] = useState('')
+  const [streetAddress, setStreetAddress] = useState('')
+  const [city, setCity] = useState('')
   const [price, setPrice] = useState('')
   const [type, setType] = useState('')
   const [numOfBath, setNumOfBath] = useState('')
@@ -69,7 +70,8 @@ export default function CreateListingPopup (props) {
   };
 
   const onTitleChange = (e) => setTitle(e.target.value);
-  const onAddressChange = (e) => setAddress(e.target.value);
+  const onStreetAddressChange = (e) => setStreetAddress(e.target.value);
+  const onCityChange = (e) => setCity(e.target.value);
   const onPriceChange = (e) => setPrice(Number(e.target.value));
   const onTypeChange = (e) => setType(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
@@ -98,9 +100,10 @@ export default function CreateListingPopup (props) {
 
   const handleSubmit = async () => {
     // TODO: fix amenities
-    const addr = { addr: address }
+    const fullAddress = `${streetAddress} ${city}`
+    const addr = { addr: fullAddress, city }
     const metadata = { bedroomDetails, numOfBath, amenities, type }
-    const payload = { title, address: addr, price, thumbnail, metadata }
+    const payload = { title, address: addr, price, thumbnail, metadata, reviews: [] }
     console.log('payload: ', payload)
 
     const jwtToken = localStorage.getItem('jwtToken');
@@ -149,11 +152,21 @@ export default function CreateListingPopup (props) {
           <TextField
               autoFocus
               margin="dense"
-              id="address"
-              label="address"
+              id="street address"
+              label="Street address"
               fullWidth
               variant="standard"
-              onChange={onAddressChange}
+              onChange={onStreetAddressChange}
+
+          />
+          <TextField
+              autoFocus
+              margin="dense"
+              id="city"
+              label="City"
+              fullWidth
+              variant="standard"
+              onChange={onCityChange}
 
           />
           <TextField

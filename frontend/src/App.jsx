@@ -10,6 +10,7 @@ import Nav from './Nav'
 import MyListings from './MyListings';
 import EditListing from './EditListing';
 import Listing from './Listing'
+import Search from './Search'
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [allListings, setAllListings] = useState()
@@ -40,6 +41,7 @@ function App () {
     <>
         <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <hr />
+        <Search/>
         <Routes>
           <Route path="/" element={<Home allListings={allListings} />} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
@@ -51,6 +53,7 @@ function App () {
   } else {
     return (
       <>
+          <Search/>
           <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <Routes>
             <Route path="/" element={<Home allListings={allListings}/>} />
