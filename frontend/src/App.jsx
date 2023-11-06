@@ -12,7 +12,6 @@ import EditListing from './EditListing';
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [allListings, setAllListings] = useState()
-  const [myListings, setMyListings] = useState()
   useEffect(() => {
     async function getAllListings () {
       const reqData = {
@@ -26,9 +25,7 @@ function App () {
         const fetchResponse = await fetch('http://localhost:5005/listings', reqData);
         const data = await fetchResponse.json();
         if (data) {
-          const userListings = data.listings.filter((l) => l.owner === localStorage.getItem('userEmail'))
           setAllListings(data.listings)
-          setMyListings(userListings)
         }
       } catch (e) {
         alert(e)
@@ -37,8 +34,6 @@ function App () {
     getAllListings()
   }, [])
 
-  useEffect(() => {
-  }, [allListings, myListings])
   if (!isLoggedIn) {
     return (
     <>
@@ -57,7 +52,7 @@ function App () {
           <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/mylistings" element={<MyListings myListings={myListings}/>}/>
+            <Route path="/mylistings" element={<MyListings allListings={allListings}/>}/>
             <Route path="/mylistings/:id" element={<EditListing />} />
           </Routes>
           <hr />

@@ -4,7 +4,8 @@ import MyListingCard from './MyListingCard';
 import styles from './MyListings.module.css'
 
 const MyListings = (props) => {
-  const { myListings } = props
+  const { allListings } = props
+  const myListings = allListings.filter((l) => l.owner === localStorage.getItem('userEmail'))
   const [listings, setListings] = useState([])
 
   useEffect(() => {
