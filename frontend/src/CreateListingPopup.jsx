@@ -10,6 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
+import PropertyType from './PropertyType.jsx';
 
 export default function CreateListingPopup (props) {
   const { listings, setListings } = props
@@ -73,7 +74,6 @@ export default function CreateListingPopup (props) {
   const onStreetAddressChange = (e) => setStreetAddress(e.target.value);
   const onCityChange = (e) => setCity(e.target.value);
   const onPriceChange = (e) => setPrice(Number(e.target.value));
-  const onTypeChange = (e) => setType(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
   const handleThumbnailChange = (e) => {
     e.preventDefault();
@@ -179,16 +179,7 @@ export default function CreateListingPopup (props) {
               onChange={onPriceChange}
 
           />
-          <TextField
-              autoFocus
-              margin="dense"
-              id="property-type"
-              label="Property Type"
-              fullWidth
-              variant="standard"
-              onChange={onTypeChange}
-
-          />
+          <PropertyType type={type} setType={setType}/>
           <TextField
               autoFocus
               margin="dense"

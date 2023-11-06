@@ -7,6 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
+import PropertyType from './PropertyType.jsx';
 
 const EditListing = (props) => {
   const { id } = useParams()
@@ -147,7 +148,6 @@ const EditListing = (props) => {
   const onTitleChange = (e) => setTitle(e.target.value);
   const onAddressChange = (e) => setAddress(e.target.value);
   const onPriceChange = (e) => setPrice(e.target.value);
-  const onTypeChange = (e) => setType(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
   const handleAmenitiesChange = (e) => {
     const amenity = e.target.value
@@ -236,17 +236,8 @@ const EditListing = (props) => {
             data-shrink={true}
 
         />
-        <TextField
-            autoFocus
-            margin="dense"
-            id="property-type"
-            label="Property Type"
-            fullWidth
-            variant="standard"
-            onChange={onTypeChange}
-            value={type}
-            data-shrink={true}
-        />
+        <PropertyType type={type} setType={setType}/>
+
         <TextField
             autoFocus
             margin="dense"

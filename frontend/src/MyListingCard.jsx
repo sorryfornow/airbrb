@@ -57,7 +57,6 @@ export default function MyListingCard (props) {
       <CardActions>
         <Button onClick={handleEdit} size="small">Edit</Button>
         <PublishListingPopup listingID={data.id}/>
-        <Button size="small">Delete</Button>
       </CardActions>
     </Card>
   );
