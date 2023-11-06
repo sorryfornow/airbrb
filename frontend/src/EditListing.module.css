@@ -1,0 +1,4 @@
+.listOfImages {
+    display:flex;
+    flex-direction: column;
+} 

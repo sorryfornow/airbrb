@@ -9,6 +9,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { fileToDataUrl } from './helpers.js';
 import PropertyType from './PropertyType.jsx';
+import styles from './EditListing.module.css'
 
 const EditListing = (props) => {
   const { id } = useParams()
@@ -285,12 +286,16 @@ const EditListing = (props) => {
           />
             );
           })}
-              <Button variant="contained" onClick={deleteInput}>-</Button>
-              <Button variant="contained" onClick={addInput}>+</Button>
+              <Button variant="contained" size="small" onClick={deleteInput}>-</Button>
+              <Button variant="contained" size="small" onClick={addInput}>+</Button>
         </div>
-        <div>List of Images: {imgInputFields.map((item, i) => { return (<input key={i} id={i} onChange={handleImagesChange} type="file" />) }) }
-               <Button variant="contained" onClick={deleteImgInput}>-</Button>
-              <Button variant="contained" onClick={addImgInput}>+</Button>
+        <div className={styles.listOfImages}>List of Images:
+              {imgInputFields.map((item, i) => { return (<div key={i}><input key={i} id={i} onChange={handleImagesChange} type="file" /></div>) }) }
+              <div>
+              <Button variant="contained" size="small" onClick={deleteImgInput}>-</Button>
+              <Button variant="contained" size="small" onClick={addImgInput}>+</Button>
+              </div>
+
         </div>
         </div>}
         <Button onClick={handleCancel}>Cancel</Button>
