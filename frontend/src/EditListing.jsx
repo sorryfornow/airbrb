@@ -29,7 +29,7 @@ const EditListing = (props) => {
   const [bedroomDetails, setBedroomDetails] = useState([]);
 
   useEffect(() => {
-    console.log('full listing: ', listing)
+    // console.log('full listing: ', listing)
   }, [listing])
 
   useEffect(() => {
@@ -53,6 +53,14 @@ const EditListing = (props) => {
           setType(l.metadata.type || 'unkown')
           setNumOfBath(l.metadata.numOfBath || 'unkown')
           setThumbnail(l.thumbnail || 'unkown')
+          setImages(l.metadata.images)
+          const initialImages = l.metadata.images
+          const initialImageInputs = []
+          for (let i = 0; i < initialImages.length; i++) {
+            const currImgInput = <input type="file" key={i}/>
+            initialImageInputs.push(currImgInput)
+          }
+          setImgInputFields(initialImageInputs)
         }
       } catch (e) {
         alert(e)
@@ -91,21 +99,20 @@ const EditListing = (props) => {
 
   const handleImagesChange = (e) => {
     e.preventDefault();
-    console.log('hi images change')
-    console.log('IMG CHANGE e.target.key', e.target.id)
-    console.log('input value: ', e.target.files[0])
+    // console.log('hi images change')
+    // console.log('IMG CHANGE e.target.key', e.target.id)
+    // console.log('input value: ', e.target.files[0])
     const filePromise = fileToDataUrl(e.target.files[0])
     filePromise.then((res) => {
       const uploadedImg = { id: Number(e.target.id), img: res }
       const copy = [...images];
       const existingImg = copy.find((i) => i.id === uploadedImg.id)
+      // existingImg should always be defined as the obj is created when img file input is created
       if (existingImg) {
         existingImg.img = uploadedImg.img
         setImages(copy)
       } else {
-        const copy = [...images];
-        copy.push(uploadedImg)
-        setImages(copy)
+        alert('failed to uplaod image')
       }
     })
   };
@@ -117,6 +124,11 @@ const EditListing = (props) => {
         <input onChange={handleImagesChange} type="file" key={imgInputFields.length}/>
       ];
     });
+
+    const copy = [...images]
+    const newImg = { id: images.length, img: undefined }
+    copy.push(newImg)
+    setImages(copy)
   };
   const deleteImgInput = () => {
     setImgInputFields(s => {
@@ -171,7 +183,7 @@ const EditListing = (props) => {
     const addr = { addr: address }
     const metadata = { bedroomDetails, numOfBath, amenities, type, images }
     const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
-    console.log('payload: ', payload)
+    console.log('EditListing payload images: ', images)
 
     const jwtToken = localStorage.getItem('jwtToken');
     const reqData = {
@@ -255,7 +267,6 @@ const EditListing = (props) => {
           <CardMedia
            sx={{ height: 50, width: 50 }}
            image={thumbnail || require('./house_icon_1.png')}
-           title="green iguana"
           />
           <input onChange={handleThumbnailChange} type="file" /></div>
         <Divider />
@@ -271,7 +282,7 @@ const EditListing = (props) => {
         </div>
         <Divider />
         <div>
-           Bedroom details:
+          Bedroom details:
           {bedroomInputFields.map((item, i) => {
             return (
               <TextField
@@ -289,8 +300,18 @@ const EditListing = (props) => {
               <Button variant="contained" size="small" onClick={deleteInput}>-</Button>
               <Button variant="contained" size="small" onClick={addInput}>+</Button>
         </div>
-        <div className={styles.listOfImages}>List of Images:
-              {imgInputFields.map((item, i) => { return (<div key={i}><input key={i} id={i} onChange={handleImagesChange} type="file" /></div>) }) }
+        <div className={styles.listOfImages}>
+            List of Images:
+              {imgInputFields.map((item, i) => {
+                return (
+                <div key={i}>
+                   <CardMedia
+                    sx={{ height: 50, width: 50 }}
+                    image={images[i].img || require('./upload-icon.png')}
+                   />
+                  <input key={i} id={i} onChange={handleImagesChange} type="file" />
+                </div>)
+              }) }
               <div>
               <Button variant="contained" size="small" onClick={deleteImgInput}>-</Button>
               <Button variant="contained" size="small" onClick={addImgInput}>+</Button>

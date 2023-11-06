@@ -21,7 +21,6 @@ export default function MyListingCard (props) {
   }
   const navigate = useNavigate();
   const handleEdit = () => {
-    console.log('data EDIT: ', data)
     navigate(`/mylistings/${data.id}`, { replace: true });
   };
   return (
