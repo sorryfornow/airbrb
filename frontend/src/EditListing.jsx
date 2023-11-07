@@ -20,7 +20,8 @@ const EditListing = (props) => {
   const [bedroomInputFields, setBedroomInputFields] = useState([]);
   const [imgInputFields, setImgInputFields] = useState([]);
   const [title, setTitle] = useState('')
-  const [address, setAddress] = useState('')
+  const [streetAddress, setStreetAddress] = useState('')
+  const [city, setCity] = useState('')
   const [price, setPrice] = useState('')
   const [type, setType] = useState('')
   const [numOfBath, setNumOfBath] = useState('')
@@ -30,7 +31,7 @@ const EditListing = (props) => {
   const [bedroomDetails, setBedroomDetails] = useState([]);
 
   useEffect(() => {
-    // console.log('full listing: ', listing)
+    console.log('full listing: ', listing)
   }, [listing])
 
   useEffect(() => {
@@ -49,7 +50,8 @@ const EditListing = (props) => {
           setListing(res.listing)
           const l = res.listing
           setTitle(l.title || 'unkown')
-          setAddress(l.address.addr || 'unkown')
+          setStreetAddress(l.address.addr || 'unkown')
+          setCity(l.address.city || 'unkown')
           setPrice(l.price || 'unkown')
           setType(l.metadata.type || 'unkown')
           setNumOfBath(l.metadata.numOfBath || 'unknown')
@@ -185,7 +187,8 @@ const EditListing = (props) => {
   };
 
   const onTitleChange = (e) => setTitle(e.target.value);
-  const onAddressChange = (e) => setAddress(e.target.value);
+  const onStreetAddressChange = (e) => setStreetAddress(e.target.value);
+  const onCityChange = (e) => setCity(e.target.value);
   const onPriceChange = (e) => setPrice(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
   const handleAmenitiesChange = (e) => {
@@ -205,7 +208,7 @@ const EditListing = (props) => {
 
   const handleSave = async () => {
     if (isNaN(Number(price))) { alert('invalid price, please enter a valid number'); return }
-    const addr = { addr: address }
+    const addr = { addr: streetAddress, city }
     const metadata = { bedroomDetails, numOfBath, amenities, type, images }
     const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
 
@@ -231,7 +234,7 @@ const EditListing = (props) => {
   };
 
   const handleCancel = () => {
-    navigate('/mylistings/', { replace: true });
+    navigate('/mylistings/');
   };
 
   const handleDelete = async () => {
@@ -276,16 +279,27 @@ const EditListing = (props) => {
             data-shrink={true}
         />
         <TextField
-            autoFocus
-            margin="dense"
-            id="address"
-            label="address"
-            fullWidth
-            variant="standard"
-            value={address}
-            onChange={onAddressChange}
-            data-shrink={true}
-        />
+              autoFocus
+              margin="dense"
+              id="street address"
+              label="Street address"
+              fullWidth
+              variant="standard"
+              onChange={onStreetAddressChange}
+              data-shrink={true}
+              value={streetAddress}
+          />
+          <TextField
+              autoFocus
+              margin="dense"
+              id="city"
+              label="City"
+              fullWidth
+              variant="standard"
+              onChange={onCityChange}
+              data-shrink={true}
+              value={city}
+          />
         <TextField
             autoFocus
             margin="dense"

@@ -40,6 +40,7 @@ const MyListings = (props) => {
 
   return (
       <div >
+          <div>My Listings:</div>
           <CreateListingPopup listings={listings} setListings={setListings}/>
           <div className={styles.myListings}>
            {listings && listings.map((l, i) => <MyListingCard key={i} data={l} />)}

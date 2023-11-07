@@ -99,9 +99,7 @@ export default function CreateListingPopup (props) {
   }
 
   const handleSubmit = async () => {
-    // TODO: fix amenities
-    const fullAddress = `${streetAddress} ${city}`
-    const addr = { addr: fullAddress, city }
+    const addr = { addr: streetAddress, city }
     const metadata = { bedroomDetails, numOfBath, amenities, type }
     const payload = { title, address: addr, price, thumbnail, metadata, reviews: [] }
     console.log('payload: ', payload)

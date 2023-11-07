@@ -7,6 +7,7 @@ const Home = (props) => {
   const { allListings } = props
   return (
     <>
+    <div>All Listings:</div>
     <Search/>
     <div className={styles.listings}>
     {allListings && allListings.map((l, i) => <ListingCard key={i} data={l} />)}
