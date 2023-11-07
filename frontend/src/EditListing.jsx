@@ -170,16 +170,12 @@ const EditListing = (props) => {
   const handleBedroomDetailsChange = e => {
     e.preventDefault();
     const key = e.target.id;
-    console.log('key: ', key)
     const numOfGuests = Number(e.target.value)
     const copy = [...bedroomDetails]
-    console.log('copy 1: ', copy)
 
     const obj = copy.find((b) => { if (Object.keys(b)[0] === key) { return b } else { return undefined } })
-    console.log('obj: ', obj)
     if (obj) {
       obj[`${key}`] = numOfGuests
-      console.log('copy bd: ', copy)
       setBedroomDetails(copy)
     } else {
       alert('fail to update room info')
@@ -211,6 +207,7 @@ const EditListing = (props) => {
     const addr = { addr: streetAddress, city }
     const metadata = { bedroomDetails, numOfBath, amenities, type, images }
     const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
+    console.log('EditListing payload: ', payload)
 
     const jwtToken = localStorage.getItem('jwtToken');
     const reqData = {

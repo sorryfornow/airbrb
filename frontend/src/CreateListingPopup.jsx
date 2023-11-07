@@ -13,7 +13,7 @@ import { fileToDataUrl } from './helpers.js';
 import PropertyType from './PropertyType.jsx';
 
 export default function CreateListingPopup (props) {
-  const { listings, setListings } = props
+  const { allListings, setAllListings } = props
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([]);
   const [title, setTitle] = useState('')
@@ -56,16 +56,12 @@ export default function CreateListingPopup (props) {
   const handleBedroomDetailsChange = e => {
     e.preventDefault();
     const key = e.target.id;
-    console.log('key: ', key)
     const numOfGuests = Number(e.target.value)
     const copy = [...bedroomDetails]
-    console.log('copy 1: ', copy)
 
     const obj = copy.find((b) => { if (Object.keys(b)[0] === key) { return b } else { return undefined } })
-    console.log('obj: ', obj)
     if (obj) {
       obj[`${key}`] = numOfGuests
-      console.log('copy bd: ', copy)
       setBedroomDetails(copy)
     } else {
       alert('fail to update room info')
@@ -128,11 +124,14 @@ export default function CreateListingPopup (props) {
       const fetchResponse = await fetch('http://localhost:5005/listings/new', reqData);
       const data = await fetchResponse.json();
       console.log('create listing res: ', data)
-      const copy = [...listings];
-      payload.id = data.listingId
+      const copy = [...allListings];
+      console.log('copy before: ', copy)
+      payload.id = Number(data.listingId)
+      payload.owner = localStorage.getItem('userEmail')
+      console.log('copy payload: ', payload)
       copy.push(payload)
-      console.log('copy after new listing added: ', copy)
-      setListings(copy)
+      console.log('copy after: ', copy)
+      setAllListings(copy)
     } catch (e) {
       alert(e)
     }

@@ -4,12 +4,14 @@ import MyListingCard from './MyListingCard';
 import styles from './MyListings.module.css'
 
 const MyListings = (props) => {
-  const { allListings } = props
+  const { allListings, setAllListings } = props
   console.log('all listings MyListings: ', allListings)
   const myListings = allListings.filter((l) => l.owner === localStorage.getItem('userEmail'))
   const [listings, setListings] = useState([])
 
   useEffect(() => {
+    console.log('all listings MyListings INSIDE USEeffect: ', allListings)
+
     const arr = []
     const listingIDs = myListings.map((l) => l.id)
     async function getFullListing (id) {
@@ -37,12 +39,12 @@ const MyListings = (props) => {
     for (let i = 0; i < listingIDs.length; i++) {
       getFullListing(listingIDs[i])
     }
-  }, [])
+  }, [allListings])
 
   return (
       <div >
           <div>My Listings:</div>
-          <CreateListingPopup listings={listings} setListings={setListings}/>
+          <CreateListingPopup listings={listings} allListings={allListings} setAllListings={setAllListings}/>
           <div className={styles.myListings}>
            {listings && listings.length > 0 && listings.map((l, i) => <MyListingCard key={i} data={l} />)}
           </div>
