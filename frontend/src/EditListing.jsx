@@ -13,7 +13,6 @@ import styles from './EditListing.module.css'
 
 const EditListing = (props) => {
   const { allListings, setAllListings } = props
-  console.log('all listings EDIT: ', allListings, setAllListings)
   const { id } = useParams()
   const [listing, setListing] = useState({})
   const navigate = useNavigate();
@@ -209,7 +208,6 @@ const EditListing = (props) => {
     const addr = { addr: address }
     const metadata = { bedroomDetails, numOfBath, amenities, type, images }
     const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
-    console.log('EditListing payload : ', payload)
 
     const jwtToken = localStorage.getItem('jwtToken');
     const reqData = {
