@@ -104,6 +104,7 @@ export default function CreateListingPopup (props) {
   }
 
   const handleSubmit = async () => {
+    // validation
     if (title === '') { alert('invalid title'); return }
     if (streetAddress === '') { alert('invalid street address'); return }
     if (city === '') { alert('invalid city'); return }

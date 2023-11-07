@@ -203,7 +203,17 @@ const EditListing = (props) => {
   }
 
   const handleSave = async () => {
+    // validation
+    if (title === '') { alert('invalid title'); return }
+    if (streetAddress === '') { alert('invalid street address'); return }
+    if (city === '') { alert('invalid city'); return }
+    if (type === '') { alert('invalid property type'); return }
     if (isNaN(Number(price))) { alert('invalid price, please enter a valid number'); return }
+    if (!thumbnail) { alert('must provide a thumbnail'); return }
+    for (let i = 0; i < bedroomDetails.length; i++) {
+      if (isNaN(bedroomDetails[i][`bedroom${i + 1}`])) { alert(`invalid bed number for bedroom${i + 1}`); return }
+    }
+    if (type === '') { alert('invalid property type'); return }
     const addr = { addr: streetAddress, city }
     const metadata = { bedroomDetails, numOfBath, amenities, type, images }
     const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
@@ -262,8 +272,9 @@ const EditListing = (props) => {
 
   return (
     <React.Fragment>
-        <div>Edit Listing</div>
-        {listing && listing.title && <div>
+      {listing && listing.title && <div>
+      <div>Edit Listing</div>
+      <div>
         <TextField
             autoFocus
             margin="dense"
@@ -378,10 +389,12 @@ const EditListing = (props) => {
               </div>
 
         </div>
-        </div>}
+        </div>
         <Button onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleSave} variant="contained" color="success">Save</Button>
         <Button onClick={handleDelete} variant="contained" color="error" >Delete listing</Button>
+        </div>}
+
     </React.Fragment>
   )
 }
