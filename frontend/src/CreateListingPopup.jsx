@@ -22,7 +22,7 @@ export default function CreateListingPopup (props) {
   const [price, setPrice] = useState('')
   const [type, setType] = useState('')
   const [numOfBath, setNumOfBath] = useState('')
-  const [thumbnail, setThumbnail] = useState('')
+  const [thumbnail, setThumbnail] = useState()
   const [amenities, setAmenities] = useState([])
   const [bedroomDetails, setBedroomDetails] = useState([]);
 
@@ -104,6 +104,16 @@ export default function CreateListingPopup (props) {
   }
 
   const handleSubmit = async () => {
+    if (title === '') { alert('invalid title'); return }
+    if (streetAddress === '') { alert('invalid street address'); return }
+    if (city === '') { alert('invalid city'); return }
+    if (type === '') { alert('invalid property type'); return }
+    if (isNaN(Number(price))) { alert('invalid price, please enter a valid number'); return }
+    if (!thumbnail) { alert('must provide a thumbnail'); return }
+    for (let i = 0; i < bedroomDetails.length; i++) {
+      if (isNaN(bedroomDetails[i][`bedroom${i + 1}`])) { alert(`invalid bed number for bedroom${i + 1}`); return }
+    }
+    if (type === '') { alert('invalid property type'); return }
     const addr = { addr: streetAddress, city }
     const metadata = { bedroomDetails, numOfBath, amenities, type }
     const payload = { title, address: addr, price, thumbnail, metadata, reviews: [] }
