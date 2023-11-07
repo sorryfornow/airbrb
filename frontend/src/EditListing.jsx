@@ -223,10 +223,10 @@ const EditListing = (props) => {
       }
     }
     try {
+      console.log('EditListing id: ', id)
       const fetchResponse = await fetch(`http://localhost:5005/listings/${id}`, reqData);
       const data = await fetchResponse.json();
       console.log('edit listing res: ', data)
-
       navigate('/mylistings/');
     } catch (e) {
       alert(e)
@@ -266,7 +266,7 @@ const EditListing = (props) => {
   return (
     <React.Fragment>
         <div>Edit Listing</div>
-        {listing && <div>
+        {listing && listing.title && <div>
         <TextField
             autoFocus
             margin="dense"

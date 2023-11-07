@@ -5,6 +5,7 @@ import styles from './MyListings.module.css'
 
 const MyListings = (props) => {
   const { allListings } = props
+  console.log('all listings MyListings: ', allListings)
   const myListings = allListings.filter((l) => l.owner === localStorage.getItem('userEmail'))
   const [listings, setListings] = useState([])
 
@@ -43,9 +44,8 @@ const MyListings = (props) => {
           <div>My Listings:</div>
           <CreateListingPopup listings={listings} setListings={setListings}/>
           <div className={styles.myListings}>
-           {listings && listings.map((l, i) => <MyListingCard key={i} data={l} />)}
+           {listings && listings.length > 0 && listings.map((l, i) => <MyListingCard key={i} data={l} />)}
           </div>
-
       </div>
   )
 }

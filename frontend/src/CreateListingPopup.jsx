@@ -15,7 +15,7 @@ import PropertyType from './PropertyType.jsx';
 export default function CreateListingPopup (props) {
   const { listings, setListings } = props
   const [open, setOpen] = React.useState(false);
-  const [bedroomInputFields, setBedroomInputFields] = useState([<TextField key={0}/>]);
+  const [bedroomInputFields, setBedroomInputFields] = useState([]);
   const [title, setTitle] = useState('')
   const [streetAddress, setStreetAddress] = useState('')
   const [city, setCity] = useState('')
@@ -36,6 +36,10 @@ export default function CreateListingPopup (props) {
     />
       ];
     });
+    const copy = [...bedroomDetails]
+    const newbd = { [`bedroom${bedroomDetails.length + 1}`]: undefined }
+    copy.push(newbd)
+    setBedroomDetails(copy)
   };
   const deleteInput = () => {
     setBedroomInputFields(s => {
@@ -44,21 +48,27 @@ export default function CreateListingPopup (props) {
         ...s
       ];
     });
+    const copy = [...bedroomDetails]
+    copy.pop();
+    setBedroomDetails(copy);
   };
 
   const handleBedroomDetailsChange = e => {
     e.preventDefault();
     const key = e.target.id;
+    console.log('key: ', key)
     const numOfGuests = Number(e.target.value)
-    const newObj = { [`${key}`]: numOfGuests }
     const copy = [...bedroomDetails]
-    const idx = copy.findIndex((b) => Object.keys(b)[0] === key)
-    if (idx > -1) {
-      copy[`${key}`] = numOfGuests
+    console.log('copy 1: ', copy)
+
+    const obj = copy.find((b) => { if (Object.keys(b)[0] === key) { return b } else { return undefined } })
+    console.log('obj: ', obj)
+    if (obj) {
+      obj[`${key}`] = numOfGuests
+      console.log('copy bd: ', copy)
       setBedroomDetails(copy)
     } else {
-      copy.push(newObj)
-      setBedroomDetails(copy)
+      alert('fail to update room info')
     }
   };
 
@@ -77,7 +87,6 @@ export default function CreateListingPopup (props) {
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
   const handleThumbnailChange = (e) => {
     e.preventDefault();
-    console.log('input value: ', e.target.files[0])
     const filePromise = fileToDataUrl(e.target.files[0])
     filePromise.then((image) => {
       setThumbnail(image)
@@ -120,6 +129,7 @@ export default function CreateListingPopup (props) {
       const data = await fetchResponse.json();
       console.log('create listing res: ', data)
       const copy = [...listings];
+      payload.id = data.listingId
       copy.push(payload)
       console.log('copy after new listing added: ', copy)
       setListings(copy)
