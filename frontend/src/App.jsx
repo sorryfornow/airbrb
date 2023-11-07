@@ -57,7 +57,7 @@ function App () {
             <Route path="/" element={<Home allListings={allListings}/>} />
             <Route path="/:id" element={<Listing />} />
             <Route path="/mylistings" element={<MyListings allListings={allListings}/>}/>
-            <Route path="/mylistings/:id" element={<EditListing />} />
+            <Route path="/mylistings/:id" element={<EditListing allListings={allListings} setAllListings={setAllListings}/>} />
           </Routes>
           <hr />
       </>

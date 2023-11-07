@@ -12,6 +12,8 @@ import PropertyType from './PropertyType.jsx';
 import styles from './EditListing.module.css'
 
 const EditListing = (props) => {
+  const { allListings, setAllListings } = props
+  console.log('all listings EDIT: ', allListings, setAllListings)
   const { id } = useParams()
   const [listing, setListing] = useState({})
   const navigate = useNavigate();
@@ -223,7 +225,8 @@ const EditListing = (props) => {
       const fetchResponse = await fetch(`http://localhost:5005/listings/${id}`, reqData);
       const data = await fetchResponse.json();
       console.log('edit listing res: ', data)
-      navigate('/mylistings/', { replace: true });
+
+      navigate('/mylistings/');
     } catch (e) {
       alert(e)
     }
@@ -233,7 +236,30 @@ const EditListing = (props) => {
     navigate('/mylistings/', { replace: true });
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const reqData = {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwtToken}`
+      }
+    }
+    try {
+      const fetchResponse = await fetch(`http://localhost:5005/listings/${id}`, reqData);
+      const res = await fetchResponse.json();
+      if (res) {
+        console.log('delete listing res: ', res)
+        const copy = [...allListings]
+        const idx = copy.findIndex((l) => Number(l.id) === Number(id))
+        copy.splice(idx, 1)
+        setAllListings(copy)
+        navigate('/mylistings/');
+      }
+    } catch (e) {
+      alert(e)
+    }
   };
 
   return (
