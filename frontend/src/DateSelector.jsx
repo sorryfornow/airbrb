@@ -5,7 +5,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 export default function DateSelector (props) {
   const { id, dates, setDates } = props
   const handleStartDateChange = (e) => {
-    const d = e.$d.toString().substring(0, 15)
+    const d = e.$d
     const copy = [...dates]
     const currD = copy.find((d) => d.id === id)
     currD.start = d;
@@ -13,7 +13,7 @@ export default function DateSelector (props) {
   }
 
   const handleEndDateChange = (e) => {
-    const d = e.$d.toString().substring(0, 15)
+    const d = e.$d
     const copy = [...dates]
     const currD = copy.find((d) => d.id === id)
     currD.end = d;
