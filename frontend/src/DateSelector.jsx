@@ -20,10 +20,6 @@ export default function DateSelector (props) {
     setDates(copy)
   }
 
-  // useEffect(() => {
-  //   console.log('DATES: ', dates)
-  // }, [dates])
-
   return (
     <>
     <div>

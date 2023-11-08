@@ -28,9 +28,9 @@ export default function SearchDropdown (props) {
         >
           <MenuItem value={'title'}>Property title</MenuItem>
           <MenuItem value={'city'}>City</MenuItem>
-          <MenuItem value={'price'}>Price</MenuItem>
+          <MenuItem value={'price'}>Price range</MenuItem>
           <MenuItem value={'numOfBedrooms'}>Number of bedrooms</MenuItem>
-          <MenuItem value={'dateRange'}>Date range</MenuItem>
+          <MenuItem value={'date'}>Date range</MenuItem>
           <MenuItem value={'reviewRatings'}>Review ratings</MenuItem>
         </Select>
       </FormControl>
