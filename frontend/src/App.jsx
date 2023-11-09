@@ -12,7 +12,9 @@ import EditListing from './EditListing';
 import Listing from './Listing'
 function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [allListings, setAllListings] = useState()
+  const [allListings, setAllListings] = useState([])
+  const [reload, setReload] = useState(false);
+
   useEffect(() => {
     async function getAllListings () {
       const reqData = {
@@ -33,7 +35,7 @@ function App () {
       }
     }
     getAllListings()
-  }, [])
+  }, [reload])
 
   if (!isLoggedIn) {
     return (
@@ -41,7 +43,7 @@ function App () {
         <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <hr />
         <Routes>
-          <Route path="/" element={<Home allListings={allListings} />} />
+          <Route path="/" element={<Home allListings={allListings} setAllListings={setAllListings} reload={reload} setReload={setReload}/>} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/:id" element={<Listing />} />
@@ -54,7 +56,7 @@ function App () {
           <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <hr />
           <Routes>
-            <Route path="/" element={<Home allListings={allListings}/>} />
+            <Route path="/" element={<Home allListings={allListings} setAllListings={setAllListings} reload={reload} setReload={setReload}/>} />
             <Route path="/:id" element={<Listing />} />
             <Route path="/mylistings" element={<MyListings allListings={allListings} setAllListings={setAllListings}/>}/>
             <Route path="/mylistings/:id" element={<EditListing allListings={allListings} setAllListings={setAllListings}/>} />
