@@ -1,5 +1,13 @@
-.myListings {
+/* .myListings {
     display:flex;
     flex-wrap: wrap;
+}  */
 
-} 
+.mylistings {
+    display: flex;
+    flex-wrap: wrap;
+    /* grid-template-columns: repeat(5, 1fr); 
+    grid-gap: 1rem;
+    margin: 1rem; */
+}
+  

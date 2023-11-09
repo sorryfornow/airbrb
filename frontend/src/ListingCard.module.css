@@ -1,0 +1,24 @@
+/* ListingCard.module.css */
+.card {
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+
+.thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+.title {
+    margin: 0 0 1rem 0;
+    color: brown;
+}
+
+.price {
+    color: green;
+    font-weight: bold;
+}
+
+  

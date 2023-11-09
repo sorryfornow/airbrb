@@ -1,0 +1,29 @@
+.listingsGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    grid-gap: 1rem; /* Adjust the gap as needed */
+    margin: 1rem;
+}
+  
+.listingItem {
+  border: 1px solid #ccc; /* Optional, for visual structure */
+  padding: 1rem;
+  border-radius: 0.5rem; /* Optional, for rounded corners */
+}
+
+.listingLink {
+  text-decoration: none; /* Optional: removes underline from links */
+  color: inherit; /* Optional: link color inherits from parent */
+}
+
+.listingTitle {
+  margin: 0 0 1rem 0;
+}
+
+.listingImage {
+  max-width: 100%;
+  border-radius: 0.5rem; /* Optional, for rounded image corners */
+}
+  
+
+  
