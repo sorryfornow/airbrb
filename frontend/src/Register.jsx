@@ -32,6 +32,7 @@ const Register = (props) => {
       const fetchResponse = await fetch('http://localhost:5005/user/auth/register', reqData);
       const data = await fetchResponse.json();
       console.log('Register res: ', data)
+      if (data.error) { alert(data.error); return }
       if (data) {
         navigate('/', { replace: true });
         setIsLoggedIn(true)
