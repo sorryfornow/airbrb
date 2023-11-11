@@ -1,5 +1,41 @@
 {
-  "name": "Using fixtures to represent data",
+  "property1": {
+    "title": "Test2's House",
+    "owner": "test2@hotmail.com",
+    "address": {
+      "addr": "2 Tree St"
+    },
+    "price": 111,
+    "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABuklEQVR4nK2UTyhEURTGfwZR/rOgLBSxZ2WFJTKzY0EWFMnWoCayUVaUhY0MxcKGhZWSlIUyGWWhlJKljIWxwQKjW+fV6XpvejPeV6de9577fd8799wD/tAALAAXwBgBogCIAu9ARmIySIEtRRy4wJQiPQLe5HsZ6ACq/kNeAjwJ4YGUKmX9yQ+wD9TmI9AnJF9Ak6zZAk7cAPW5CkTl8L1aM0LNKmaAb8kzTfCgIglMeJGbclzJwWNrz5CGpYQGw+pu3KLHTWBAJfRbexuynlYOTXmGgHkVr5I3l819wkW8HIgBi0ClRwValMGIvRnO4t4NFUBIvp22jcl5U7pS230yi3sb1cA1EAdWgTtgRL36PftARLk3beq3lTMeYaqRt3uDXmAWOAROgGnVtmnVaX9q78c9iqBYal0EPArHLh7uL8kPIWBdjZB2L/fm5Xb5IGwExqXnV4BbxbFpJ9cBO6LsOIhnGWKjwKfHxW4DhV6ueqTVnOSUkGm0KnJn/iTEUKffi1uyHJ4KMdLbZu05nwmq0QacKZEPYE3Gd0ambSAYFLe6zi8ykwJDjbSg84gCc2+jGzgHynI59QtFj6U5Um8oWAAAAABJRU5ErkJggg==",
+    "metadata": {
+      "bedroomDetails": [
+        {
+          "bedroom1": 2
+        }
+      ],
+      "numOfBath": "2",
+      "amenities": [
+        "Kitchen",
+        "Wi-Fi"
+      ],
+      "type": "house"
+    },
+    "reviews": [],
+    "availability": [
+      {
+        "id": 0,
+        "start": "Wed Nov 01 2023",
+        "end": "Wed Nov 15 2023"
+      },
+      {
+        "id": 1,
+        "start": "Fri Dec 01 2023",
+        "end": "Thu Dec 14 2023"
+      }
+    ],
+    "published": true,
+    "postedOn": "2023-11-06T00:45:31.545Z"
+  },
   "email": "hello@cypress.io",
   "body": "Fixtures are a great way to mock data for responses to routes"
 }
