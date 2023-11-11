@@ -35,10 +35,13 @@ export default function MyListingCard (props) {
           {data.title || 'no title'}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {data.address.addr}
+          Address: {data.address.addr}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Type: {data.metadata.type || 'unkown'}
+          Property Type: {data.metadata.type || 'unkown'}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Price: {data.price || 'unkown'}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Number of beds: {numOfBeds || 'unkown'}
