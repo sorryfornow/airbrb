@@ -5,13 +5,10 @@ import styles from './MyListings.module.css'
 
 const MyListings = (props) => {
   const { allListings, setAllListings } = props
-  console.log('all listings MyListings: ', allListings)
   const myListings = allListings.filter((l) => l.owner === localStorage.getItem('userEmail'))
   const [listings, setListings] = useState([])
 
   useEffect(() => {
-    console.log('all listings MyListings INSIDE USEeffect: ', allListings)
-
     const arr = []
     const listingIDs = myListings.map((l) => l.id)
     async function getFullListing (id) {

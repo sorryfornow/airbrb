@@ -10,6 +10,7 @@ import PublishListingPopup from './PublishListingPopup';
 
 export default function MyListingCard (props) {
   const { data } = props
+  console.log('listing in Card: ', data)
   const bedrooomDetails = data.metadata.bedroomDetails
   let numOfBeds = 0
   if (bedrooomDetails && bedrooomDetails.length > 0) {
@@ -46,14 +47,18 @@ export default function MyListingCard (props) {
         <Typography variant="body2" color="text.secondary">
           Number of beds: {numOfBeds || 'unkown'}
         </Typography>
+
+        <Typography variant="body2" color="text.secondary">
+          Amenities: {data.metadata.amenities.map((a, i) => <div key={i} >
+          - {a}
+        </div>)}
+        </Typography>
+
         <Typography variant="body2" color="text.secondary">
           Rating:
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Number of reviews: {data.reviews.length}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Price: {data.price || 'unkown'}
         </Typography>
       </CardContent>
       <CardActions>
