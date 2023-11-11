@@ -30,6 +30,10 @@ const EditListing = (props) => {
   const [amenities, setAmenities] = useState([])
   const [bedroomDetails, setBedroomDetails] = useState([]);
 
+  const isChecked = (value) => {
+    return amenities.findIndex((a) => a === value) > -1
+  }
+
   useEffect(() => {
     console.log('full listing: ', listing)
   }, [listing])
@@ -58,6 +62,7 @@ const EditListing = (props) => {
           setThumbnail(l.thumbnail || 'unkown')
           if (l.metadata.images) setImages(l.metadata.images)
           setBedroomDetails(l.metadata.bedroomDetails)
+          setAmenities(l.metadata.amenities)
 
           const initialImages = l.metadata.images
           if (initialImages && initialImages.length > 0) {
@@ -342,12 +347,12 @@ const EditListing = (props) => {
         <Divider />
         <div>amenities:
         <FormGroup>
-          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Kitchen" value="Kitchen" />
-          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Wi-Fi" value="Wi-Fi" />
-          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Coffee maker" value="Coffee maker" />
-          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="BBQ grill" value="BBQ grill" />
-          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Swimming pool" value="Swimming pool" />
-          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="TV" value="TV"/>
+          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Kitchen" value="Kitchen" checked={isChecked('Kitchen')}/>
+          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Wi-Fi" value="Wi-Fi" checked={isChecked('Wi-Fi')} />
+          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Coffee maker" value="Coffee maker" checked={isChecked('Coffee maker')}/>
+          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="BBQ grill" value="BBQ grill" checked={isChecked('BBQ grill')}/>
+          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Swimming pool" value="Swimming pool" checked={isChecked('Swimming pool')} />
+          <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="TV" value="TV" checked={isChecked('TV')}/>
         </FormGroup>
         </div>
         <Divider />
@@ -392,7 +397,7 @@ const EditListing = (props) => {
         </div>
         <Button onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleSave} variant="contained" color="success">Save</Button>
-        <Button onClick={handleDelete} variant="contained" color="error" >Delete listing</Button>
+        <Button onClick={handleDelete} variant="contained" color="error" >Delete this listing</Button>
         </div>}
 
     </React.Fragment>

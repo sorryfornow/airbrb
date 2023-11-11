@@ -49,10 +49,12 @@ export default function MyListingCard (props) {
         </Typography>
 
         <Typography variant="body2" color="text.secondary">
-          Amenities: {data.metadata.amenities.map((a, i) => <div key={i} >
-          - {a}
-        </div>)}
+          Amenities:
         </Typography>
+
+        {data.metadata.amenities.map((a, i) => <Typography variant="body2" color="text.secondary" key={i} >
+          - {a}
+        </Typography>)}
 
         <Typography variant="body2" color="text.secondary">
           Rating:
