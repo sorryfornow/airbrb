@@ -29,7 +29,8 @@ export default function MyListingCard (props) {
       <CardMedia
         sx={{ height: 300 }}
         image={data.thumbnail || require('./house_icon_1.png')}
-        title="green iguana"
+        title="thumbnail"
+        data-cy='card-thumbnail'
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

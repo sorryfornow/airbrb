@@ -1,7 +1,6 @@
 import React from 'react'
 import Login from './Login'
-import {
-  MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 
 describe('<Login />', () => {
   it('renders', () => {
