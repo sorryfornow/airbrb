@@ -152,7 +152,7 @@ export default function CreateListingPopup (props) {
 
   return (
     <React.Fragment>
-      <Button variant="contained" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen} data-cy='create-new-listing-button'>
         Create New Listing
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -175,6 +175,7 @@ export default function CreateListingPopup (props) {
               fullWidth
               variant="standard"
               onChange={onStreetAddressChange}
+              data-cy='create-listing-street-address'
 
           />
           <TextField
@@ -208,11 +209,11 @@ export default function CreateListingPopup (props) {
               onChange={onNumOfBathChange}
 
           />
-          <div>Thumbnail: <input onChange={handleThumbnailChange} type="file" /></div>
+          <div>Thumbnail: <input onChange={handleThumbnailChange} type="file" data-cy='create-listing-thumbnail-input' /></div>
           <Divider />
           <div>amenities:
           <FormGroup>
-            <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Kitchen" value="Kitchen" />
+            <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Kitchen" value="Kitchen" data-cy='create-listing-checkbox-kitchen'/>
             <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Wi-Fi" value="Wi-Fi" />
             <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="Coffee maker" value="Coffee maker" />
             <FormControlLabel onChange={handleAmenitiesChange} control={<Checkbox />} label="BBQ grill" value="BBQ grill" />
@@ -234,16 +235,17 @@ export default function CreateListingPopup (props) {
                 label={`Number of beds in bedroom ${i + 1}`}
                 fullWidth
                 variant="standard"
+                data-cy={`bedroom-input-${i}`}
             />
               );
             })}
                 <Button variant="contained" onClick={deleteInput}>-</Button>
-                <Button variant="contained" onClick={addInput}>+</Button>
+                <Button variant="contained" onClick={addInput} data-cy='create-listing-bedroom-add'>+</Button>
           </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} >Create</Button>
+          <Button onClick={handleSubmit} data-cy='create-listing-button-create'>Create</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

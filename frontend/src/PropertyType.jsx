@@ -22,7 +22,7 @@ export default function PropertyType (props) {
           label="Age"
           onChange={handleChange}
         >
-          <MenuItem value={'house'}>house</MenuItem>
+          <MenuItem value={'house'} data-cy='property-type-house'>house</MenuItem>
           <MenuItem value={'apartment'}>apartment</MenuItem>
           <MenuItem value={'other'}>other</MenuItem>
         </Select>
