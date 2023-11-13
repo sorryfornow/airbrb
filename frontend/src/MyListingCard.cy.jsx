@@ -1,18 +1,17 @@
 import React from 'react'
 import MyListingCard from './MyListingCard'
-import {
-  MemoryRouter } from 'react-router-dom'
-  
+import { MemoryRouter } from 'react-router-dom'
+
 let testData;
 
 describe('<MyListingCard />', () => {
   before(function () {
     cy.fixture('example').then(function (testdata) {
       console.log('test data cy: ', testdata)
-       testData = testdata
+      testData = testdata
     })
-})
-  it('renders', () => {
+  })
+  it('renders title, address, price, number of beds, amenities, rating and number of reviews', () => {
     const wrapped = <MemoryRouter>{<MyListingCard data={testData.property1}/>}</MemoryRouter>
 
     console.log('fixture', testData.property1)
