@@ -26,12 +26,12 @@ export default function SearchDropdown (props) {
           label="Seach By"
           onChange={handleChange}
         >
-          <MenuItem value={'title'}>Property title</MenuItem>
+          <MenuItem value={'title'}>Property Title</MenuItem>
           <MenuItem value={'city'}>City</MenuItem>
-          <MenuItem value={'price'}>Price range</MenuItem>
-          <MenuItem value={'numOfBedrooms'}>Number of bedrooms</MenuItem>
+          <MenuItem value={'price'}>Price Range</MenuItem>
+          <MenuItem value={'numOfBedrooms'}>Number of Bedrooms</MenuItem>
           <MenuItem value={'date'}>Date range</MenuItem>
-          <MenuItem value={'reviewRatings'}>Review ratings</MenuItem>
+          <MenuItem value={'reviewRatings'}>Review Ratings</MenuItem>
         </Select>
       </FormControl>
     </Box>
