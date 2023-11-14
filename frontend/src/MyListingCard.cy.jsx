@@ -24,12 +24,12 @@ describe('<MyListingCard />', () => {
     const wrapped = <MemoryRouter>{<MyListingCard data={testData.property1}/>}</MemoryRouter>
     cy.mount(wrapped)
 
-    cy.contains('Address: 2 Tree St')
+    cy.contains('Address: 2 New St, Newtown, NSW2222 Australia')
     cy.contains('Property Type: house')
-    cy.contains('Price: 111')
+    cy.contains('Price: 100')
+    cy.contains('Number of beds: 2')
     cy.contains('Amenities:')
     cy.contains('- Kitchen')
-    cy.contains('- Wi-Fi')
     cy.contains('Rating:')
     cy.contains('Number of reviews: 0')
   })
