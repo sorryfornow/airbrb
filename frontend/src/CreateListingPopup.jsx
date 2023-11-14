@@ -114,6 +114,9 @@ export default function CreateListingPopup (props) {
     if (title === '') { alert('invalid title'); return }
     if (street === '') { alert('invalid street address'); return }
     if (city === '') { alert('invalid city'); return }
+    if (state === '') { alert('invalid state'); return }
+    if (postcode === '') { alert('invalid postcode'); return }
+    if (country === '') { alert('invalid country'); return }
     if (type === '') { alert('invalid property type'); return }
     if (isNaN(Number(price))) { alert('invalid price, please enter a valid number'); return }
     if (!thumbnail) { alert('must provide a thumbnail'); return }
