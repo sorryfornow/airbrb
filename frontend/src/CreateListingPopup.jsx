@@ -17,8 +17,11 @@ export default function CreateListingPopup (props) {
   const [open, setOpen] = React.useState(false);
   const [bedroomInputFields, setBedroomInputFields] = useState([]);
   const [title, setTitle] = useState('')
-  const [streetAddress, setStreetAddress] = useState('')
+  const [street, setStreet] = useState('')
   const [city, setCity] = useState('')
+  const [state, setState] = useState('')
+  const [postcode, setPostcode] = useState('')
+  const [country, setCountry] = useState('')
   const [price, setPrice] = useState('')
   const [type, setType] = useState('')
   const [numOfBath, setNumOfBath] = useState('')
@@ -77,8 +80,11 @@ export default function CreateListingPopup (props) {
   };
 
   const onTitleChange = (e) => setTitle(e.target.value);
-  const onStreetAddressChange = (e) => setStreetAddress(e.target.value);
+  const onStreetChange = (e) => setStreet(e.target.value);
   const onCityChange = (e) => setCity(e.target.value);
+  const onStateChange = (e) => setState(e.target.value);
+  const onPostcodeChange = (e) => setPostcode(e.target.value);
+  const onCountryChange = (e) => setCountry(e.target.value);
   const onPriceChange = (e) => setPrice(Number(e.target.value));
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
   const handleThumbnailChange = (e) => {
@@ -106,7 +112,7 @@ export default function CreateListingPopup (props) {
   const handleSubmit = async () => {
     // validation
     if (title === '') { alert('invalid title'); return }
-    if (streetAddress === '') { alert('invalid street address'); return }
+    if (street === '') { alert('invalid street address'); return }
     if (city === '') { alert('invalid city'); return }
     if (type === '') { alert('invalid property type'); return }
     if (isNaN(Number(price))) { alert('invalid price, please enter a valid number'); return }
@@ -115,7 +121,7 @@ export default function CreateListingPopup (props) {
       if (isNaN(bedroomDetails[i][`bedroom${i + 1}`])) { alert(`invalid bed number for bedroom${i + 1}`); return }
     }
     if (type === '') { alert('invalid property type'); return }
-    const addr = { addr: streetAddress, city }
+    const addr = { street, city, state, postcode, country }
     const metadata = { bedroomDetails, numOfBath, amenities, type }
     const payload = { title, address: addr, price, thumbnail, metadata, reviews: [] }
     console.log('payload: ', payload)
@@ -170,13 +176,12 @@ export default function CreateListingPopup (props) {
           <TextField
               autoFocus
               margin="dense"
-              id="street address"
-              label="Street address"
+              id="street"
+              label="Street"
               fullWidth
               variant="standard"
-              onChange={onStreetAddressChange}
+              onChange={onStreetChange}
               data-cy='create-listing-street-address'
-
           />
           <TextField
               autoFocus
@@ -187,6 +192,34 @@ export default function CreateListingPopup (props) {
               variant="standard"
               onChange={onCityChange}
 
+          />
+          <TextField
+              autoFocus
+              margin="dense"
+              id="state"
+              label="State"
+              fullWidth
+              variant="standard"
+              onChange={onStateChange}
+
+          />
+          <TextField
+              autoFocus
+              margin="dense"
+              id="postcode"
+              label="Postcode"
+              fullWidth
+              variant="standard"
+              onChange={onPostcodeChange}
+          />
+          <TextField
+              autoFocus
+              margin="dense"
+              id="country"
+              label="Country"
+              fullWidth
+              variant="standard"
+              onChange={onCountryChange}
           />
           <TextField
               autoFocus
