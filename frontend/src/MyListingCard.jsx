@@ -65,7 +65,7 @@ export default function MyListingCard (props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={handleEdit} size="small">Edit</Button>
+        <Button onClick={handleEdit} size="small" data-cy={'edit-listing-button'}>Edit</Button>
         <PublishListingPopup listingID={data.id}/>
       </CardActions>
     </Card>

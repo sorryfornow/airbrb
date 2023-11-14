@@ -439,7 +439,7 @@ const EditListing = (props) => {
         </div>
         </div>
         <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleSave} variant="contained" color="success">Save</Button>
+        <Button onClick={handleSave} variant="contained" color="success" data-cy='edit-listing-save-btn'>Save</Button>
         <Button onClick={handleDelete} variant="contained" color="error" >Delete this listing</Button>
         </div>}
 
