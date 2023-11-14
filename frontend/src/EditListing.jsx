@@ -20,8 +20,11 @@ const EditListing = (props) => {
   const [bedroomInputFields, setBedroomInputFields] = useState([]);
   const [imgInputFields, setImgInputFields] = useState([]);
   const [title, setTitle] = useState('')
-  const [streetAddress, setStreetAddress] = useState('')
+  const [street, setStreet] = useState('')
   const [city, setCity] = useState('')
+  const [state, setState] = useState('')
+  const [postcode, setPostcode] = useState('')
+  const [country, setCountry] = useState('')
   const [price, setPrice] = useState('')
   const [type, setType] = useState('')
   const [numOfBath, setNumOfBath] = useState('')
@@ -54,8 +57,11 @@ const EditListing = (props) => {
           setListing(res.listing)
           const l = res.listing
           setTitle(l.title || 'unkown')
-          setStreetAddress(l.address.addr || 'unkown')
+          setStreet(l.address.street || 'unkown')
           setCity(l.address.city || 'unkown')
+          setState(l.address.state || 'unkown')
+          setPostcode(l.address.postcode || 'unkown')
+          setCountry(l.address.country || 'unkown')
           setPrice(l.price || 'unkown')
           setType(l.metadata.type || 'unkown')
           setNumOfBath(l.metadata.numOfBath || 'unknown')
@@ -188,8 +194,11 @@ const EditListing = (props) => {
   };
 
   const onTitleChange = (e) => setTitle(e.target.value);
-  const onStreetAddressChange = (e) => setStreetAddress(e.target.value);
+  const onStreetChange = (e) => setStreet(e.target.value);
   const onCityChange = (e) => setCity(e.target.value);
+  const onStateChange = (e) => setState(e.target.value);
+  const onPostcodeChange = (e) => setPostcode(e.target.value);
+  const onCountryChange = (e) => setCountry(e.target.value);
   const onPriceChange = (e) => setPrice(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
   const handleAmenitiesChange = (e) => {
@@ -210,7 +219,7 @@ const EditListing = (props) => {
   const handleSave = async () => {
     // validation
     if (title === '') { alert('invalid title'); return }
-    if (streetAddress === '') { alert('invalid street address'); return }
+    if (street === '') { alert('invalid street address'); return }
     if (city === '') { alert('invalid city'); return }
     if (type === '') { alert('invalid property type'); return }
     if (isNaN(Number(price))) { alert('invalid price, please enter a valid number'); return }
@@ -219,7 +228,7 @@ const EditListing = (props) => {
       if (isNaN(bedroomDetails[i][`bedroom${i + 1}`])) { alert(`invalid bed number for bedroom${i + 1}`); return }
     }
     if (type === '') { alert('invalid property type'); return }
-    const addr = { addr: streetAddress, city }
+    const addr = { street, city, state, postcode, country }
     const metadata = { bedroomDetails, numOfBath, amenities, type, images }
     const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
     console.log('EditListing payload: ', payload)
@@ -294,13 +303,13 @@ const EditListing = (props) => {
         <TextField
               autoFocus
               margin="dense"
-              id="street address"
-              label="Street address"
+              id="street"
+              label="Street"
               fullWidth
               variant="standard"
-              onChange={onStreetAddressChange}
+              onChange={onStreetChange}
               data-shrink={true}
-              value={streetAddress}
+              value={street}
           />
           <TextField
               autoFocus
@@ -312,6 +321,40 @@ const EditListing = (props) => {
               onChange={onCityChange}
               data-shrink={true}
               value={city}
+          />
+        <TextField
+              autoFocus
+              margin="dense"
+              id="state"
+              label="State"
+              fullWidth
+              variant="standard"
+              data-shrink={true}
+              onChange={onStateChange}
+              value={state}
+          />
+          <TextField
+              autoFocus
+              margin="dense"
+              id="postcode"
+              label="Postcode"
+              fullWidth
+              variant="standard"
+              data-shrink={true}
+              onChange={onPostcodeChange}
+              value={postcode}
+
+          />
+          <TextField
+              autoFocus
+              margin="dense"
+              id="country"
+              label="Country"
+              fullWidth
+              variant="standard"
+              data-shrink={true}
+              onChange={onCountryChange}
+              value={country}
           />
         <TextField
             autoFocus

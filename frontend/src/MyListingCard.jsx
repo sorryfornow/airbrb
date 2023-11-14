@@ -37,7 +37,7 @@ export default function MyListingCard (props) {
           {data.title || 'no title'}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Address: {data.address.addr}
+          Address: {data.address.street}, {data.address.city}, {data.address.state}{ data.address.postcode} {data.address.country}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Property Type: {data.metadata.type || 'unkown'}
