@@ -125,12 +125,12 @@ export default function Search (props) {
 
   return (
     <div className={styles.search}>
-        <SearchDropdown searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
-        {(searchFilter !== 'price' && searchFilter !== 'date') && <TextField onChange={handleTermChange} id="outlined-basic" label="value" variant="outlined" />}
+        <SearchDropdown searchFilter={searchFilter} setSearchFilter={setSearchFilter} data-cy="search-dropdown"/>
+        {(searchFilter !== 'price' && searchFilter !== 'date') && <TextField onChange={handleTermChange} id="outlined-basic" label="value" variant="outlined" data-cy="search-value"/>}
         {searchFilter === 'price' && <PriceSlider value={priceRange} onChange={setPriceRange}/>}
         {searchFilter === 'date' && <DateSelector id="searchDate" dates={dates} setDates={setDates}/>}
-        <Button onClick={handleSearch} variant="contained">Search</Button>
-        <Button onClick={handleRemoveFilter} variant="contained">Remove Filter</Button>
+        <Button onClick={handleSearch} variant="contained" data-cy="search-button">Search</Button>
+        <Button onClick={handleRemoveFilter} variant="contained" data-cy="remove-filter-button">Remove Filter</Button>
     </div>
   );
 }

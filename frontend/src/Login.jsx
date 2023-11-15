@@ -46,7 +46,7 @@ const Login = (props) => {
   <div>login:
           <TextField onChange={onEmailChange} id="login-email" label="email" variant="outlined" />
           <TextField onChange={onPasswordChange} id="login-password" label="password" variant="outlined" />
-          <Button onClick={handleLoginSubmit} variant="contained">Login</Button>
+          <Button onClick={handleLoginSubmit} variant="contained" data-cy='login-button'>Login</Button>
   </div>)
 }
 

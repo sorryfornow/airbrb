@@ -46,6 +46,7 @@ export default function PublishListingPopup (props) {
 
   const handlePublish = async () => {
     const payload = { availability: dates }
+    console.log('dates: ', dates)
     const jwtToken = localStorage.getItem('jwtToken');
     const reqData = {
       method: 'PUT',

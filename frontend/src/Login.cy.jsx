@@ -7,4 +7,17 @@ describe('<Login />', () => {
     const wrapped = <MemoryRouter>{<Login />}</MemoryRouter>
     cy.mount(wrapped)
   })
+
+  it('contains email and password fields', () => {
+    const wrapped = <MemoryRouter>{<Login />}</MemoryRouter>
+    cy.mount(wrapped)
+    cy.get('#login-email').should('exist');
+    cy.get('#login-password').should('exist');
+  })
+
+  it('contains login button', () => {
+    const wrapped = <MemoryRouter>{<Login />}</MemoryRouter>
+    cy.mount(wrapped)
+    cy.get('[data-cy=login-button]').should('exist');
+  })
 })
