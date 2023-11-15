@@ -29,4 +29,14 @@ describe('<Search />', () => {
     cy.get('@setAllListings').should('have.been.called')
     cy.get('@setReload').should('have.been.called')
   })
+
+  it('renders correct buttons', () => {
+    // see: https://on.cypress.io/mounting-react
+    cy.mount(<Search setAllListings={cy.stub().as('setAllListings')} setReload={cy.stub().as('setReload')} />)
+    cy.get('[data-cy=search-button]').click()
+    cy.get('[data-cy=remove-filter-button]').click()
+    cy.get('@setAllListings').should('have.been.called')
+    cy.get('@setReload').should('have.been.called')
+  })
+  
 })
