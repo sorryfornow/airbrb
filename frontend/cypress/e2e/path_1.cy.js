@@ -1,5 +1,5 @@
 describe('template spec', () => {
-  it('a user logs, creates a listing, ', () => {
+  it('a user logs, creates, edits, publishes, deletes a listing and then logs out ', () => {
     // login
     cy.visit('http://localhost:3000/login')
     cy.get('#login-email').type('test1@hotmail.com')
@@ -28,5 +28,16 @@ describe('template spec', () => {
     cy.get('#street').clear()
     cy.get('#street').type('3 New Street')
     cy.get('[data-cy=edit-listing-save-btn]').click()
+    // publish
+    cy.get('[data-cy=publish-listing-button]').last().click()
+    cy.get('#mui-11').type('01122023')
+    cy.get('#mui-13').type('10122023')
+    cy.get('[data-cy="publish-listing-save-button"]').click()
+
+    // delete
+    cy.get('[data-cy=edit-listing-button]').last().click()
+    cy.get('[data-cy=delete-listing-btn]').last().click()
+    // // logout
+    cy.get('[data-cy="logout-button"]').click()
   })
 })

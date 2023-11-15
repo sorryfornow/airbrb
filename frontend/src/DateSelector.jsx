@@ -26,11 +26,11 @@ export default function DateSelector (props) {
     <div>
     from:
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker onChange={handleStartDateChange} />
+      <DatePicker onChange={handleStartDateChange} data-cy="date-picker-from"/>
     </LocalizationProvider>
     to:
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker onChange={handleEndDateChange}/>
+      <DatePicker onChange={handleEndDateChange} data-cy="date-picker-to"/>
     </LocalizationProvider>
     </div>
 

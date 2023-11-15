@@ -69,7 +69,7 @@ export default function PublishListingPopup (props) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClickOpen} data-cy="publish-listing-button">
         Publish
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -85,7 +85,7 @@ export default function PublishListingPopup (props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handlePublish}>Publish</Button>
+          <Button onClick={handlePublish} data-cy="publish-listing-save-button">Publish</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

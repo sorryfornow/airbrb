@@ -440,7 +440,7 @@ const EditListing = (props) => {
         </div>
         <Button onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleSave} variant="contained" color="success" data-cy='edit-listing-save-btn'>Save</Button>
-        <Button onClick={handleDelete} variant="contained" color="error" >Delete this listing</Button>
+        <Button onClick={handleDelete} variant="contained" color="error" data-cy="delete-listing-btn">Delete this listing</Button>
         </div>}
 
     </React.Fragment>

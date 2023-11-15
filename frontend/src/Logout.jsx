@@ -32,7 +32,7 @@ const Logout = (props) => {
 
   return (
   <div>
-    <Button onClick={handleLogout} variant="contained">Logout</Button>
+    <Button onClick={handleLogout} variant="contained" data-cy="logout-button">Logout</Button>
   </div>)
 }
 
