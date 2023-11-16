@@ -24,6 +24,8 @@ export default function MyListingCard (props) {
   const handleEdit = () => {
     navigate(`/mylistings/${data.id}`, { replace: true });
   };
+  const handleUnpublish = () => {
+  };
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
@@ -67,6 +69,7 @@ export default function MyListingCard (props) {
       <CardActions>
         <Button onClick={handleEdit} size="small" data-cy={'edit-listing-button'}>Edit</Button>
         <PublishListingPopup listingID={data.id}/>
+        <Button onClick={handleUnpublish} variant="outlined" data-cy={'unpublish-listing-button'}>Unpulish</Button>
       </CardActions>
     </Card>
   );
