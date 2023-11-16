@@ -24,23 +24,23 @@ export default function Listing (props) {
   // State to store listing details
   const [listWithDetails, setListWithDetails] = useState(null);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        const response = await apiCall(`listings/${lstId}`, null, jwtToken, 'GET');
-        if (!response || !response.listing) {
-          setError('Failed to fetch listing details');
-          return;
-        }
+  const fetchDetails = async () => {
+    try {
+      const response = await apiCall(`listings/${lstId}`, null, jwtToken, 'GET');
+      if (!response || !response.listing) {
+        setError('Failed to fetch listing details');
+      } else {
         console.log('response:', response);
         setListWithDetails(response.listing);
-      } catch (err) {
-        console.error('Error fetching details:', err);
-        setError('Error occurred while fetching listing details');
+        setError(null);
       }
-    };
+    } catch (err) {
+      console.error('Error fetching details:', err);
+      setError('Error occurred while fetching listing details');
+    }
+  };
 
+  useEffect(() => {
     const fetchBookingStatus = async () => {
       try {
         const { bookings } = await apiCall('bookings', null, jwtToken, 'GET');
@@ -72,9 +72,8 @@ export default function Listing (props) {
   }, [lstId, jwtToken, userEmail, ableToReview, newReview, anyBookingid, isBookingRequested]);
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error} <button onClick={fetchDetails}>Retry</button></div>;
   }
-
   if (!listWithDetails) {
     return <div>Loading...</div>;
   }

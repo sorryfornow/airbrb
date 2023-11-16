@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import PublishListingPopup from './PublishListingPopup';
+import { Grid } from '@mui/material';
 
 export default function MyListingCard (props) {
   const { data } = props
@@ -25,7 +26,8 @@ export default function MyListingCard (props) {
     navigate(`/mylistings/${data.id}`, { replace: true });
   };
   return (
-    <Card sx={{ width: 345 }}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+    <Card sx={{ maxWidth: 400, m: 1 }}>
       <CardMedia
         sx={{ height: 300 }}
         image={data.thumbnail || require('./house_icon_1.png')}
@@ -37,7 +39,7 @@ export default function MyListingCard (props) {
           {data.title || 'no title'}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Address: {data.address.street}, {data.address.city}, {data.address.state}{ data.address.postcode} {data.address.country}
+          Address: {data.address.street}, {data.address.city}, {data.address.state},{ data.address.postcode},{data.address.country}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Property Type: {data.metadata.type || 'unkown'}
@@ -69,5 +71,6 @@ export default function MyListingCard (props) {
         <PublishListingPopup listingID={data.id}/>
       </CardActions>
     </Card>
+    </Grid>
   );
 }
