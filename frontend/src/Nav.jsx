@@ -21,6 +21,7 @@ const Nav = (props) => {
     <div className={styles.navBar}>
      <Link to="/">Home</Link>
      <Link to="/mylistings">my listings</Link>
+     <Link to="/mybookings">my bookings</Link>
      <Logout setIsLoggedIn={setIsLoggedIn} />
     </div>
     )

@@ -8,6 +8,7 @@ import Login from './Login'
 import Register from './Register'
 import Nav from './Nav'
 import MyListings from './MyListings';
+import MyBookings from './MyBookings';
 import EditListing from './EditListing';
 import Listing from './Listing'
 function App () {
@@ -59,6 +60,7 @@ function App () {
             <Route path="/" element={<Home allListings={allListings} setAllListings={setAllListings} reload={reload} setReload={setReload}/>} />
             <Route path="/:id" element={<Listing />} />
             <Route path="/mylistings" element={<MyListings allListings={allListings} setAllListings={setAllListings}/>}/>
+            <Route path="/mybookings" element={<MyBookings allListings={allListings} setAllListings={setAllListings}/>}/>
             <Route path="/mylistings/:id" element={<EditListing allListings={allListings} setAllListings={setAllListings}/>} />
           </Routes>
           <hr />
