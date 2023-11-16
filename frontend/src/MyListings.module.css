@@ -1,10 +1,7 @@
 
 .mylistings {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    grid-template-columns: repeat(5, 1fr); 
-    grid-gap: 1rem;
-    margin: 1rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 0; /* or any desired gap between grid items */
+    margin: 0;
 }
-  
