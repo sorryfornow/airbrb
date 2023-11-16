@@ -48,6 +48,20 @@ export default function Search (props) {
     return res;
   };
 
+  const filterReviewRatings = async (lstId) => {
+    const listWithDetails_ = await apiCall(`listings/${lstId}`, null, jwtToken, 'GET');
+    if (!listWithDetails_) {
+      console.error('Failed to fetch listing details');
+      return false;
+    }
+    let res = 0;
+    listWithDetails_.listing.reviews.forEach(review => {
+      res += review.score;
+    });
+    if (listWithDetails_.listing.reviews.length > 0) res /= listWithDetails_.listing.reviews.length;
+    return res;
+  };
+
   const isDateRangeOverlapping = (listingRange, searchRange) => {
     const [searchStart, searchEnd] = [dayjs(searchRange.start), dayjs(searchRange.end)]
     const [listingStart, listingEnd] = [dayjs(listingRange.start), dayjs(listingRange.end)]
@@ -111,8 +125,17 @@ export default function Search (props) {
       default:
         break;
     }
-    // TODO sort by rating
-    setAllListings(filteredListings);
+    // sort by rating
+    const sortListings = (listings) => {
+      return listings.sort((a, b) => {
+        const aId = a.id;
+        const bId = b.id;
+        const aRating = filterReviewRatings(aId);
+        const bRating = filterReviewRatings(bId);
+        return bRating - aRating;
+      });
+    }
+    setAllListings(sortListings(filteredListings));
   };
 
   const handleRemoveFilter = () => {

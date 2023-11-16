@@ -18,6 +18,9 @@ export default function Listing (props) {
   const [isBookingRequested, setIsBookingRequested] = useState('');
   const [userBookings, setUserBookings] = useState([]);
   const [ableToReview, setAbleToReview] = useState(false);
+  const [anyBookingid, setAnyBookingid] = useState(null);
+  const [newReview, setNewReview] = useState(null);
+  // const [newReview, setNewReview] = useState(null);
   // State to store listing details
   const [listWithDetails, setListWithDetails] = useState(null);
   const [error, setError] = useState(null);
@@ -49,7 +52,12 @@ export default function Listing (props) {
           // Check if any booking is accepted
           const acceptedBooking = curUserBooking.find(booking => booking.status === 'accepted');
           console.log('acceptedBooking:', acceptedBooking); // Debugging log
-          if (acceptedBooking && acceptedBooking.length > 0) setAbleToReview(true);
+          if (acceptedBooking && acceptedBooking.length > 0) {
+            setAbleToReview(true);
+          }
+          if (acceptedBooking && acceptedBooking.length > 0) {
+            setAnyBookingid(acceptedBooking[0].id);
+          }
         } else {
           // Handle unexpected response format
           console.error('Unexpected response format:', bookings);
@@ -61,7 +69,7 @@ export default function Listing (props) {
 
     fetchDetails();
     if (jwtToken && userEmail) fetchBookingStatus();
-  }, [lstId, jwtToken, userEmail]);
+  }, [lstId, jwtToken, userEmail, ableToReview, newReview, anyBookingid, isBookingRequested]);
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -98,10 +106,12 @@ export default function Listing (props) {
   const handleReviewSubmit = async () => {
     // Implement review submission logic
     try {
-      const review = { score: reviewScore, comment: reviewComment };
-      const response = await apiCall(`listings/${lstId}/review/{bookingid}`, review, jwtToken, 'POST');
+      const review = { author: userEmail, score: reviewScore, comment: reviewComment };
+      const response = await apiCall(`listings/${lstId}/review/${anyBookingid}`, review, jwtToken, 'PUT');
       if (response) {
         console.log('Review Success:', response);
+        // set const review as newReview
+        setNewReview('Your review has been submitted.');
         setReviewScore('');
         setReviewComment('');
       } else {
@@ -120,6 +130,19 @@ export default function Listing (props) {
         <Typography variant="body2">End Date: {booking.dateRange.endDate}</Typography>
         <Typography variant="body2">Total Price: {booking.totalPrice}</Typography>
         <Typography variant="body2">Status: {booking.status}</Typography>
+      </Box>
+    ));
+  };
+  // Display reviews if available
+  const displayReviews = () => {
+    return listWithDetails.reviews.map((review, index) => (
+      <Box key={index} sx={{ mb: 2 }}>
+        <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+          {review.author}: {review.score}
+        </Typography>
+        <Typography variant="body2">
+          {review.comment}
+        </Typography>
       </Box>
     ));
   };
@@ -166,11 +189,20 @@ export default function Listing (props) {
               ))}
             </Box>
             <Typography variant="body2" color="text.secondary">
-              Reviews: {reviews.length}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
               Availability: {availability.map(a => `${new Date(a.start).toLocaleDateString()} to ${new Date(a.end).toLocaleDateString()}`).join(', ')}
             </Typography>
+            {/* Display Reviews */}
+            <Box mb={2}>
+              <Typography variant="body2" color="text.secondary">
+                Reviews: {reviews.length}
+              </Typography>
+              {reviews.length > 0 && (<Typography variant="body2" color="text.secondary">
+                Average Rating: {reviews.reduce((acc, cur) => acc + cur.score, 0) / reviews.length}
+              </Typography>
+              )}
+              <Typography variant="h6" gutterBottom>Comments</Typography>
+              {listWithDetails && listWithDetails.reviews.length > 0 ? (displayReviews()) : (<Typography>No reviews yet.</Typography>)}
+            </Box>
             <Typography variant="body2" color="text.secondary">
               Published: {published ? 'Yes' : 'No'}
             </Typography>
@@ -204,7 +236,7 @@ export default function Listing (props) {
                 value={reviewScore}
                 onChange={(e) => setReviewScore(e.target.value)}
                 sx={{ mb: 1, width: '100%' }}
-                inputProps={{ min: "1", max: "5", step: "1" }} // Set min and max values
+                inputProps={{ min: '1', max: '5', step: '1' }} // Set min and max values
               />
               <TextField
                 label="Comment"
@@ -217,11 +249,12 @@ export default function Listing (props) {
               <Button variant="contained" onClick={handleReviewSubmit}>
                 Submit Review
               </Button>
+              {newReview && <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{newReview}</Typography>}
             </Box>
           )}
           {/* Display booking status */}
           <Box mb={2}>
-            <Typography variant="h6" gutterBottom>Booking Status</Typography>
+            <Typography variant="h6" gutterBottom>My Booking Status</Typography>
             {displayBookingStatus()}
           </Box>
         </Grid>

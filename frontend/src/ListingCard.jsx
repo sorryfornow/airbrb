@@ -14,6 +14,7 @@ export default function Listing (props) {
     console.log('data EDIT: ', data)
     navigate(`/${data.id}`, { replace: true });
   };
+
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
