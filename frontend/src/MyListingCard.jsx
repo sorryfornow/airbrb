@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
+import { apiCall } from './helpers';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -7,10 +9,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import PublishListingPopup from './PublishListingPopup';
+import Box from '@mui/material/Box';
 
 export default function MyListingCard (props) {
+  const [curBookings, setCurBookings] = useState([]);
+  const [curBookingStatus, setCurBookingStatus] = useState('');
+  const jwtToken = localStorage.getItem('jwtToken');
   const { data } = props
   console.log('listing in Card: ', data)
+  const lstId = data.id;
   const bedrooomDetails = data.metadata.bedroomDetails
   let numOfBeds = 0
   if (bedrooomDetails && bedrooomDetails.length > 0) {
@@ -21,8 +28,25 @@ export default function MyListingCard (props) {
     for (let i = 0; i < bedNumArr.length; i++) { numOfBeds += bedNumArr[i] }
   }
   const navigate = useNavigate();
+
   const handleEdit = () => {
     navigate(`/mylistings/${data.id}`, { replace: true });
+  };
+
+  const fetchBooking = async () => {
+    try {
+      const { bookings } = await apiCall('bookings/', null, jwtToken, 'GET');
+      if (bookings && Array.isArray(bookings)) {
+        const curLstBooking = bookings.filter(booking => parseInt(booking.listingId) === lstId);
+        if (curLstBooking.length > 0) {
+          setCurBookings(curLstBooking);
+        }
+      } else {
+        console.error('Unexpected response format:', bookings);
+      }
+    } catch (err) {
+      console.error('Error fetching booking status:', err);
+    }
   };
 
   const handleUnpublish = () => {
@@ -41,11 +65,37 @@ export default function MyListingCard (props) {
         if (res.error) alert(res.error);
         else {
           alert('Listing unpublished successfully');
-          // render
+          navigate('/mylistings', { replace: true });
         }
       })
       .catch(err => console.error(err));
   }
+
+  useEffect(() => {
+    fetchBooking();
+  }, [jwtToken, data.id, curBookingStatus]);
+
+  const handleAcceptBooking = async (bookingId) => {
+    const response = await apiCall(`bookings/accept/${bookingId}/`, null, jwtToken, 'PUT');
+    if (response.error) {
+      alert(response.error);
+    } else {
+      alert('Booking accepted successfully');
+      // render
+      setCurBookingStatus('accepted');
+    }
+  };
+
+  const handleRejectBooking = async (bookingId) => {
+    const response = await apiCall(`bookings/decline/${bookingId}/`, null, jwtToken, 'PUT');
+    if (response.error) {
+      alert(response.error);
+    } else {
+      alert('Booking rejected successfully');
+      // render
+      setCurBookingStatus('rejected');
+    }
+  };
 
   return (
     <Card sx={{ width: 345 }}>
@@ -92,6 +142,38 @@ export default function MyListingCard (props) {
         <PublishListingPopup listingID={data.id}/>
         <Button onClick={handleUnpublish} variant="outlined" data-cy={'unpublish-listing-button'}>Unpulish</Button>
       </CardActions>
+
+      {/* Display Current Bookings */}
+      {curBookings.length > 0 && (
+        <CardContent>
+          <Typography gutterBottom variant="h6" component="div">
+            Current Bookings
+          </Typography>
+          {curBookings.map((booking, index) => (
+            <Box key={index} sx={{ mb: 1 }}>
+              <Typography variant="body2" color="text.secondary">
+                Guest: {booking.owner}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Dates: {booking.dateRange.startDate} to {booking.dateRange.endDate}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Total Price: ${booking.totalPrice}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Status: {booking.status}
+              </Typography>
+              {/* if booking.status is pending, enable button */}
+              { booking.status === 'pending' && (
+                <Box>
+                  <Button onClick={() => handleAcceptBooking(booking.id)} size="small" data-cy={'accept-booking-button'}>Accept</Button>
+                  <Button onClick={() => handleRejectBooking(booking.id)} size="small" data-cy={'reject-booking-button'}>Reject</Button>
+                </Box>
+              )}
+            </Box>
+          ))}
+        </CardContent>
+      )}
     </Card>
   );
 }

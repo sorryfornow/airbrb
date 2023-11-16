@@ -34,9 +34,7 @@ const MyListings = (props) => {
         alert(e)
       }
     }
-    for (let i = 0; i < listingIDs.length; i++) {
-      getFullListing(listingIDs[i])
-    }
+    for (let i = 0; i < listingIDs.length; i++) getFullListing(listingIDs[i]);
   }, [allListings]);
 
   return (

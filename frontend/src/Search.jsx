@@ -48,19 +48,19 @@ export default function Search (props) {
     return res;
   };
 
-  const filterReviewRatings = async (lstId) => {
-    const listWithDetails_ = await apiCall(`listings/${lstId}`, null, jwtToken, 'GET');
-    if (!listWithDetails_) {
-      console.error('Failed to fetch listing details');
-      return false;
-    }
-    let res = 0;
-    listWithDetails_.listing.reviews.forEach(review => {
-      res += review.score;
-    });
-    if (listWithDetails_.listing.reviews.length > 0) res /= listWithDetails_.listing.reviews.length;
-    return res;
-  };
+  // const filterReviewRatings = async (lstId) => {
+  //   const listWithDetails_ = await apiCall(`listings/${lstId}`, null, jwtToken, 'GET');
+  //   if (!listWithDetails_) {
+  //     console.error('Failed to fetch listing details');
+  //     return false;
+  //   }
+  //   let res = 0;
+  //   listWithDetails_.listing.reviews.forEach(review => {
+  //     res += review.score;
+  //   });
+  //   if (listWithDetails_.listing.reviews.length > 0) res /= listWithDetails_.listing.reviews.length;
+  //   return res;
+  // };
 
   const isDateRangeOverlapping = (listingRange, searchRange) => {
     const [searchStart, searchEnd] = [dayjs(searchRange.start), dayjs(searchRange.end)]
@@ -119,23 +119,31 @@ export default function Search (props) {
         break;
 
       case 'reviewRatings':
-        // TODO
+        filteredListings = allListings.filter(listing => {
+          if (listing.reviews.length === 0) return false;
+          let sum = 0;
+          listing.reviews.forEach(review => {
+            sum += review.score;
+          });
+          if ((sum / listing.reviews.length) >= parseFloat(searchTerm)) return true;
+          return false;
+        });
         break;
       // additional cases
       default:
         break;
     }
     // sort by rating
-    const sortListings = (listings) => {
-      return listings.sort((a, b) => {
-        const aId = a.id;
-        const bId = b.id;
-        const aRating = filterReviewRatings(aId);
-        const bRating = filterReviewRatings(bId);
-        return bRating - aRating;
-      });
-    }
-    setAllListings(sortListings(filteredListings));
+    // const sortListings = (listings) => {
+    //   return listings.sort((a, b) => {
+    //     const aId = a.id;
+    //     const bId = b.id;
+    //     const aRating = filterReviewRatings(aId);
+    //     const bRating = filterReviewRatings(bId);
+    //     return aRating - bRating;
+    //   });
+    // }
+    setAllListings(filteredListings);
   };
 
   const handleRemoveFilter = () => {

@@ -52,11 +52,11 @@ export default function Listing (props) {
           // Check if any booking is accepted
           const acceptedBooking = curUserBooking.find(booking => booking.status === 'accepted');
           console.log('acceptedBooking:', acceptedBooking); // Debugging log
-          if (acceptedBooking && acceptedBooking.length > 0) {
+          if (acceptedBooking) {
             setAbleToReview(true);
           }
-          if (acceptedBooking && acceptedBooking.length > 0) {
-            setAnyBookingid(acceptedBooking[0].id);
+          if (acceptedBooking) {
+            setAnyBookingid(acceptedBooking.id);
           }
         } else {
           // Handle unexpected response format
@@ -105,16 +105,21 @@ export default function Listing (props) {
   const handleReviewSubmit = async () => {
     // Implement review submission logic
     try {
-      const review = { author: userEmail, score: reviewScore, comment: reviewComment };
-      const response = await apiCall(`listings/${lstId}/review/${anyBookingid}`, review, jwtToken, 'PUT');
-      if (response) {
+      const reviewData = { review: { author: userEmail, score: reviewScore, comment: reviewComment } };
+      // Ensure review fields are not empty
+      if (!reviewScore.trim() || !reviewComment.trim()) {
+        alert('Please fill in all review fields');
+        return;
+      }
+      const response = await apiCall(`listings/${lstId}/review/${anyBookingid}`, reviewData, jwtToken, 'PUT');
+      if (response.error) {
+        console.error('Review Failed:', response);
+      } else {
         console.log('Review Success:', response);
         // set const review as newReview
         setNewReview('Your review has been submitted.');
         setReviewScore('');
         setReviewComment('');
-      } else {
-        console.error('Review Failed:', response);
       }
     } catch (error) {
       console.error('Review Error:', error);
