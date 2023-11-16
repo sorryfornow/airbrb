@@ -22,9 +22,13 @@ const Logout = (props) => {
       const fetchResponse = await fetch('http://localhost:5005/user/auth/logout', reqData);
       const data = await fetchResponse.json();
       console.log('logout res: ', data)
-      if (data.error) { alert(data.error); return }
-      navigate('/', { replace: true });
-      setIsLoggedIn(false)
+      if (data.error) alert(data.error);
+      else {
+        localStorage.removeItem('jwtToken')
+        localStorage.removeItem('userEmail')
+        navigate('/', { replace: true });
+        setIsLoggedIn(false)
+      }
     } catch (e) {
       alert(e)
     }

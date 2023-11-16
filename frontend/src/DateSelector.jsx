@@ -4,7 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 export default function DateSelector (props) {
   const { id, dates, setDates } = props
-  console.log('dates from dateSelector: ', dates)
+  // console.log('dates from dateSelector: ', dates)
   const handleStartDateChange = (e) => {
     const d = e.$d
     const copy = [...dates]
