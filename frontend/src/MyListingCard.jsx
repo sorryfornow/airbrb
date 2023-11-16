@@ -7,7 +7,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import PublishListingPopup from './PublishListingPopup';
-import { Grid } from '@mui/material';
 
 export default function MyListingCard (props) {
   const { data } = props
@@ -28,8 +27,7 @@ export default function MyListingCard (props) {
   const handleUnpublish = () => {
   };
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3}>
-    <Card sx={{ maxWidth: 400, m: 1 }}>
+    <Card sx={{ width: 345 }}>
       <CardMedia
         sx={{ height: 300 }}
         image={data.thumbnail || require('./house_icon_1.png')}
@@ -74,6 +72,5 @@ export default function MyListingCard (props) {
         <Button onClick={handleUnpublish} variant="outlined" data-cy={'unpublish-listing-button'}>Unpulish</Button>
       </CardActions>
     </Card>
-    </Grid>
   );
 }
