@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import PublishListingPopup from './PublishListingPopup';
 import Box from '@mui/material/Box';
+import dayjs from 'dayjs';
 
 export default function MyListingCard (props) {
   const [curBookings, setCurBookings] = useState([]);
@@ -20,6 +21,20 @@ export default function MyListingCard (props) {
   const lstId = data.id;
   const bedrooomDetails = data.metadata.bedroomDetails
   let numOfBeds = 0
+  let daysBookedThisYear = 0;
+  let totalProfitThisYear = 0;
+
+  // Calculate how long the listing has been up online
+  const daysOnline = dayjs().diff(dayjs(data.postedOn), 'day');
+  // Calculate the number of days booked this year and total profit
+  curBookings.forEach(booking => {
+    if (booking.status === 'accepted' && dayjs(booking.dateRange.startDate).year() === dayjs().year()) {
+      const days = dayjs(booking.dateRange.endDate).diff(dayjs(booking.dateRange.startDate), 'day');
+      daysBookedThisYear += days;
+      totalProfitThisYear += booking.totalPrice;
+    }
+  });
+
   if (bedrooomDetails && bedrooomDetails.length > 0) {
     // const bedInfo = Object.values(bedrooomDetails)
     const bedsArr = []
@@ -146,6 +161,19 @@ export default function MyListingCard (props) {
       {/* Display Current Bookings */}
       {curBookings.length > 0 && (
         <CardContent>
+          <Typography gutterBottom variant="h6" component="div">
+            Property Profit:
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Published Online Days: {daysOnline} days
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Days Booked This Year: {daysBookedThisYear}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Total Profit This Year: ${totalProfitThisYear}
+          </Typography>
+
           <Typography gutterBottom variant="h6" component="div">
             Current Bookings
           </Typography>
