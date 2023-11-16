@@ -24,8 +24,29 @@ export default function MyListingCard (props) {
   const handleEdit = () => {
     navigate(`/mylistings/${data.id}`, { replace: true });
   };
+
   const handleUnpublish = () => {
-  };
+    const jwtToken = localStorage.getItem('jwtToken');
+    const reqData = {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwtToken}`
+      }
+    }
+    fetch(`http://localhost:5005/listings/unpublish/${data.id}`, reqData)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) alert(res.error);
+        else {
+          alert('Listing unpublished successfully');
+          // render
+        }
+      })
+      .catch(err => console.error(err));
+  }
+
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
