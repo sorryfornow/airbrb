@@ -5,3 +5,17 @@
     grid-gap: 0; /* or any desired gap between grid items */
     margin: 0;
 }
+
+@media (width <870px) {
+    .mylistings {
+        display: flex;
+        flex-direction: column;
+      }
+  }
+
+  @media (width <670px) {
+    .mylistings {
+        display: flex;
+        flex-direction: column;
+      }
+  }
