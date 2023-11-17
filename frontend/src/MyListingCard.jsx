@@ -18,7 +18,6 @@ export default function MyListingCard (props) {
   const [curBookingStatus, setCurBookingStatus] = useState('');
   const jwtToken = localStorage.getItem('jwtToken');
   const { data } = props
-  console.log('listing in Card: ', data)
   const lstId = data.id;
   const bedrooomDetails = data.metadata.bedroomDetails
   let numOfBeds = 0
