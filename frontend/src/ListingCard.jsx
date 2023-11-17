@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import styles from './ListingCard.module.css'
 
 export default function Listing (props) {
   const { data } = props
@@ -16,9 +17,9 @@ export default function Listing (props) {
   };
 
   return (
-    <Card sx={{ width: 345 }}>
+    <Card className={styles.card}>
       <CardMedia
-        sx={{ height: 300 }}
+        className={styles.cardMedia}
         image={data.thumbnail || require('./house_icon_1.png')}
         title="green iguana"
       />

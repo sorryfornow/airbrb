@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import PublishListingPopup from './PublishListingPopup';
 import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
+import styles from './MyListingCard.module.css'
 
 export default function MyListingCard (props) {
   const [curBookings, setCurBookings] = useState([]);
@@ -113,9 +114,9 @@ export default function MyListingCard (props) {
   };
 
   return (
-    <Card sx={{ width: 345 }}>
+    <Card className={styles.card}>
       <CardMedia
-        sx={{ height: 300 }}
+        className={styles.cardMedia}
         image={data.thumbnail || require('./house_icon_1.png')}
         title="thumbnail"
         data-cy='card-thumbnail'
