@@ -32,6 +32,7 @@ const EditListing = (props) => {
   const [images, setImages] = useState([])
   const [amenities, setAmenities] = useState([])
   const [bedroomDetails, setBedroomDetails] = useState([]);
+  const [youtubeURL, setYoutubeURL] = useState('')
 
   const isChecked = (value) => {
     return amenities.findIndex((a) => a === value) > -1
@@ -69,6 +70,7 @@ const EditListing = (props) => {
           if (l.metadata.images) setImages(l.metadata.images)
           setBedroomDetails(l.metadata.bedroomDetails)
           setAmenities(l.metadata.amenities)
+          setYoutubeURL(l.metadata.youtubeURL)
 
           const initialImages = l.metadata.images
           if (initialImages && initialImages.length > 0) {
@@ -201,6 +203,7 @@ const EditListing = (props) => {
   const onCountryChange = (e) => setCountry(e.target.value);
   const onPriceChange = (e) => setPrice(e.target.value);
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
+  const onYoutubeURLChange = (e) => setYoutubeURL(e.target.value);
   const handleAmenitiesChange = (e) => {
     const amenity = e.target.value
     const checked = e.target.checked
@@ -215,6 +218,10 @@ const EditListing = (props) => {
       setAmenities(copy);
     }
   }
+  const isYoutubeURLValid = (url) => {
+    const pattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+    return pattern.test(url);
+  };
 
   const handleSave = async () => {
     // validation
@@ -228,6 +235,8 @@ const EditListing = (props) => {
       if (isNaN(bedroomDetails[i][`bedroom${i + 1}`])) { alert(`invalid bed number for bedroom${i + 1}`); return }
     }
     if (type === '') { alert('invalid property type'); return }
+    if (youtubeURL && !isYoutubeURLValid(youtubeURL)) { alert('Please enter a valid YouTube URL'); return; }
+
     const addr = { street, city, state, postcode, country }
     const metadata = { bedroomDetails, numOfBath, amenities, type, images }
     const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
@@ -381,6 +390,18 @@ const EditListing = (props) => {
             value={numOfBath}
             data-shrink={true}
         />
+        <TextField
+            autoFocus
+            margin="dense"
+            id="youtube-url"
+            label="YouTube URL"
+            fullWidth
+            variant="standard"
+            value={youtubeURL}
+            onChange={onYoutubeURLChange}
+            data-cy='create-listing-youtube-url'
+        />
+
         <div>Thumbnail:
           <CardMedia
            sx={{ height: 50, width: 50 }}

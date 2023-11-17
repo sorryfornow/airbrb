@@ -28,7 +28,8 @@ export default function CreateListingPopup (props) {
   const [thumbnail, setThumbnail] = useState()
   const [amenities, setAmenities] = useState([])
   const [bedroomDetails, setBedroomDetails] = useState([]);
-
+  const [youtubeURL, setYoutubeURL] = useState('');
+  const [images, setImages] = useState([]);
   //  reference: https://stackoverflow.com/questions/66469913/how-to-add-input-field-dynamically-when-user-click-on-button-in-react-js
   const addInput = () => {
     setBedroomInputFields(s => {
@@ -87,12 +88,25 @@ export default function CreateListingPopup (props) {
   const onCountryChange = (e) => setCountry(e.target.value);
   const onPriceChange = (e) => setPrice(Number(e.target.value));
   const onNumOfBathChange = (e) => setNumOfBath(e.target.value);
+  const onYoutubeURLChange = (e) => setYoutubeURL(e.target.value);
+  const handleImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    Promise.all(files.map(file => fileToDataUrl(file)))
+      .then(imagesDataUrls => {
+        setImages(imagesDataUrls);
+      });
+  };
+
   const handleThumbnailChange = (e) => {
     e.preventDefault();
     const filePromise = fileToDataUrl(e.target.files[0])
     filePromise.then((image) => {
       setThumbnail(image)
     })
+  };
+  const isYoutubeURLValid = (url) => {
+    const pattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+    return pattern.test(url);
   };
   const handleAmenitiesChange = (e) => {
     const amenity = e.target.value
@@ -124,8 +138,10 @@ export default function CreateListingPopup (props) {
       if (isNaN(bedroomDetails[i][`bedroom${i + 1}`])) { alert(`invalid bed number for bedroom${i + 1}`); return }
     }
     if (type === '') { alert('invalid property type'); return }
+    if (youtubeURL && !isYoutubeURLValid(youtubeURL)) { alert('Please enter a valid YouTube URL'); return; }
+
     const addr = { street, city, state, postcode, country }
-    const metadata = { bedroomDetails, numOfBath, amenities, type }
+    const metadata = { bedroomDetails, numOfBath, amenities, type, images, youtubeURL }
     const payload = { title, address: addr, price, thumbnail, metadata, reviews: [] }
     console.log('payload: ', payload)
 
@@ -245,7 +261,33 @@ export default function CreateListingPopup (props) {
               onChange={onNumOfBathChange}
 
           />
+          <TextField
+              autoFocus
+              margin="dense"
+              id="youtube-url"
+              label="YouTube URL"
+              fullWidth
+              variant="standard"
+              value={youtubeURL}
+              onChange={onYoutubeURLChange}
+              data-cy='create-listing-youtube-url'
+          />
           <div>Thumbnail: <input onChange={handleThumbnailChange} type="file" data-cy='create-listing-thumbnail-input' /></div>
+          <div>
+            <div>Additional Images:</div>
+            <input
+              type="file"
+              multiple
+              onChange={handleImagesChange}
+              data-cy='create-listing-additional-images-input'
+            />
+            {/* Display thumbnails of uploaded images */}
+            <div>
+              {images.map((image, index) => (
+                <img key={index} src={image} alt={`upload-${index}`} style={{ width: '100px', height: '100px' }} />
+              ))}
+            </div>
+          </div>
           <Divider />
           <div>amenities:
           <FormGroup>

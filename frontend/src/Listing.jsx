@@ -308,16 +308,9 @@ export default function Listing (props) {
           </CardContent>
         </Card>
       </Grid>
-      {/* Image Gallery or Carousel for `metadata.images` */}
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {metadata.images.map((image, index) => (
-          <Box key={index} sx={{ margin: 1 }}>
-            <img src={image} alt={`Image ${index + 1}`} style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
-          </Box>
-        ))}
-      </Box>
       {/* Booking and Review part */}
-      {jwtToken && (
+      {jwtToken
+        ? (
         <Grid item xs={12} md={6}>
           {/* Booking form */}
           <Box mb={2}>
@@ -360,7 +353,26 @@ export default function Listing (props) {
             {displayBookingStatus()}
           </Box>
         </Grid>
-      )}
+          )
+        : (
+        <Grid item xs={12} md={6}>
+          <Box mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <Typography variant="h6">Please Login to Book</Typography>
+          </Box>
+        </Grid>
+          )
+      }
+      {/* Image Gallery or Carousel for `metadata.images` */}
+      <Grid item xs={12}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+          {metadata.images.map((image, index) => (
+            <Box key={index} sx={{ margin: 1 }}>
+              <img src={image} alt={`Image ${index + 1}`} style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
+            </Box>
+          ))}
+        </Box>
+      </Grid>
+
     </Grid>
   );
 }
