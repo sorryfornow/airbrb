@@ -36,6 +36,9 @@ const Home = (props) => {
       getPublished(listingIDs[i], listingIDs.length, i)
     }
   }, [allListings])
+
+  useEffect(() => {
+  }, [publishedListings])
   return (
     <>
     <div>All Listings:</div>

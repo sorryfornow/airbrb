@@ -124,7 +124,9 @@ export default function Listing (props) {
       } else {
         console.log('Review Success:', response);
         // set const review as newReview
-        setNewReview('Your review has been submitted.');
+        const reviewMSG = `Your review has been submitted with score: ${reviewScore} and Message: ${reviewComment}`;
+        if (newReview === reviewMSG) setNewReview('Opsss! You have provided the same review twice!');
+        else setNewReview(reviewMSG);
         setReviewScore('');
         setReviewComment('');
       }
