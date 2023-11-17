@@ -4,6 +4,10 @@ import { useParams } from 'react-router-dom';
 import { Card, CardMedia, CardContent, Typography, Grid, Box, Chip, TextField, Button, } from '@mui/material';
 import DateSelector from './DateSelector';
 import dayjs from 'dayjs';
+import Tooltip from '@mui/material/Tooltip';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import Modal from '@mui/material/Modal';
+import Rating from '@mui/material/Rating';
 
 export default function Listing (props) {
   // Get listing id from url and token from localStorage
@@ -13,13 +17,16 @@ export default function Listing (props) {
   const userEmail = localStorage.getItem('userEmail');
   // States for booking and review form
   const [dates, setDates] = useState([{ id: 'searchDateBooking', start: null, end: null }]);
-  const [reviewScore, setReviewScore] = useState('');
+  const [reviewScore, setReviewScore] = useState(0);
   const [reviewComment, setReviewComment] = useState('');
   const [isBookingRequested, setIsBookingRequested] = useState('');
   const [userBookings, setUserBookings] = useState([]);
   const [ableToReview, setAbleToReview] = useState(false);
   const [anyBookingid, setAnyBookingid] = useState(null);
   const [newReview, setNewReview] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedRating, setSelectedRating] = useState(null);
+
   // const [newReview, setNewReview] = useState(null);
   // State to store listing details
   const [listWithDetails, setListWithDetails] = useState(null);
@@ -151,6 +158,42 @@ export default function Listing (props) {
     ));
   };
 
+  const calculateRatingsBreakdown = (reviews) => {
+    const breakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    reviews.forEach(review => {
+      const score = parseInt(review.score, 10);
+      if (breakdown[score] !== undefined) {
+        breakdown[score] += 1;
+      }
+    });
+    return breakdown;
+  };
+
+  const RatingStar = ({ value }) => {
+    const count = ratingsBreakdown[value];
+    const percentage = totalRatings > 0 ? ((count / totalRatings) * 100).toFixed(1) : 0;
+
+    return (
+      <Tooltip title={`${count} ratings (${percentage}%)`}>
+        <StarRateIcon
+          onMouseEnter={() => { /* logic to handle hover */ }}
+          onClick={() => handleStarClick(value)}
+          style={{ cursor: 'pointer' }}
+        />
+      </Tooltip>
+    );
+  };
+
+  const handleStarClick = (rating) => {
+    setSelectedRating(rating);
+    setOpenModal(true);
+  };
+
+  const handleClose = () => setOpenModal(false);
+
+  const ratingsBreakdown = calculateRatingsBreakdown(listWithDetails.reviews);
+  const totalRatings = listWithDetails.reviews.length;
+
   const { title, owner, address, price, thumbnail, metadata, reviews, availability, published, postedOn } = listWithDetails;
   // const { bedroomDetails, numOfBath, amenities, type, images } = metadata;
   console.log('listWithDetails:', listWithDetails);
@@ -204,9 +247,35 @@ export default function Listing (props) {
                 Average Rating: {reviews.reduce((acc, cur) => acc + cur.score, 0) / reviews.length}
               </Typography>
               )}
+              <div>
+                {[1, 2, 3, 4, 5].map(star => (
+                  <RatingStar key={star} value={star} />
+                ))}
+              </div>
               <Typography variant="h6" gutterBottom>Comments</Typography>
               {listWithDetails && listWithDetails.reviews.length > 0 ? (displayReviews()) : (<Typography>No reviews yet.</Typography>)}
             </Box>
+
+            <Modal open={openModal} onClose={handleClose}>
+              <Box sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 400,
+                bgcolor: 'background.paper',
+                border: '2px solid #000',
+                boxShadow: 24,
+                p: 4,
+              }}>
+                {listWithDetails.reviews.filter(review => parseInt(review.score, 10) === selectedRating).map((review, index) => (
+                  <div key={index}>
+                    <p><strong>{review.author}</strong>: {review.comment}</p>
+                  </div>
+                ))}
+              </Box>
+            </Modal>
+
             <Typography variant="body2" color="text.secondary">
               Published: {published ? 'Yes' : 'No'}
             </Typography>
@@ -216,7 +285,14 @@ export default function Listing (props) {
           </CardContent>
         </Card>
       </Grid>
-      {/* TODO: Image Gallery or Carousel for `metadata.images` */}
+      {/* Image Gallery or Carousel for `metadata.images` */}
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {metadata.images.map((image, index) => (
+          <Box key={index} sx={{ margin: 1 }}>
+            <img src={image} alt={`Image ${index + 1}`} style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
+          </Box>
+        ))}
+      </Box>
       {/* Booking and Review part */}
       {jwtToken && (
         <Grid item xs={12} md={6}>
@@ -234,13 +310,12 @@ export default function Listing (props) {
           {ableToReview && (
             <Box mb={2}>
               <Typography variant="h6" gutterBottom>Leave a Review</Typography>
-              <TextField
-                label="Review Score"
-                type="number"
+              <Rating
+                name="review-score"
                 value={reviewScore}
-                onChange={(e) => setReviewScore(e.target.value)}
-                sx={{ mb: 1, width: '100%' }}
-                inputProps={{ min: '1', max: '5', step: '1' }} // Set min and max values
+                onChange={(event, newValue) => {
+                  setReviewScore(newValue);
+                }}
               />
               <TextField
                 label="Comment"
