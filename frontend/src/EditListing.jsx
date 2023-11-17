@@ -238,7 +238,7 @@ const EditListing = (props) => {
     if (youtubeURL && !isYoutubeURLValid(youtubeURL)) { alert('Please enter a valid YouTube URL'); return; }
 
     const addr = { street, city, state, postcode, country }
-    const metadata = { bedroomDetails, numOfBath, amenities, type, images }
+    const metadata = { bedroomDetails, numOfBath, amenities, type, images, youtubeURL }
     const payload = { title, address: addr, price: Number(price), thumbnail, metadata }
     console.log('EditListing payload: ', payload)
 
