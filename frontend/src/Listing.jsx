@@ -193,7 +193,12 @@ export default function Listing (props) {
 
   const ratingsBreakdown = calculateRatingsBreakdown(listWithDetails.reviews);
   const totalRatings = listWithDetails.reviews.length;
-
+  const transferYouTubeURL = (url) => {
+    // transform regular YouTube URL to embed URL "https://www.youtube.com/watch?v=xyz" to "https://www.youtube.com/embed/xyz"
+    const regExp = /^.*(youtu.be\/|v\/|u\/w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+  };
   const { title, owner, address, price, thumbnail, metadata, reviews, availability, published, postedOn } = listWithDetails;
   // const { bedroomDetails, numOfBath, amenities, type, images } = metadata;
   console.log('listWithDetails:', listWithDetails);
@@ -202,12 +207,30 @@ export default function Listing (props) {
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <Card sx={{ maxWidth: 345, m: 2 }}>
-          <CardMedia
+          {/* <CardMedia
             component="img"
             height="140"
             image={thumbnail}
             alt={title}
-          />
+          /> */}
+          {listWithDetails.metadata.youtubeURL
+            ? (
+            <iframe
+              width="100%"
+              height="315"
+              src={transferYouTubeURL(listWithDetails.metadata.youtubeURL)}
+              title="YouTube Video Player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>)
+            : (
+              <CardMedia
+                component="img"
+                height="140"
+                image={thumbnail}
+                alt={title}
+              />
+              )}
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {title}
