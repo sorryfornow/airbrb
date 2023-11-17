@@ -114,7 +114,7 @@ export default function Listing (props) {
     try {
       const reviewData = { review: { author: userEmail, score: reviewScore, comment: reviewComment } };
       // Ensure review fields are not empty
-      if (!reviewScore.trim() || !reviewComment.trim()) {
+      if (!reviewScore || !reviewComment.trim()) {
         alert('Please fill in all review fields');
         return;
       }
@@ -267,7 +267,7 @@ export default function Listing (props) {
                 Reviews: {reviews.length}
               </Typography>
               {reviews.length > 0 && (<Typography variant="body2" color="text.secondary">
-                Average Rating: {reviews.reduce((acc, cur) => acc + cur.score, 0) / reviews.length}
+                Average Rating: {reviews.reduce((acc, cur) => acc + parseInt(cur.score), 0) / reviews.length}
               </Typography>
               )}
               <div>
